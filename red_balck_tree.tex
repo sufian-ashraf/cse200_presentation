@@ -43,6 +43,7 @@
             \item<2-> Arranging files on computers  
             \item<3-> Putting groceries in order
             \item<4-> \textbf{What's a really good way?} \faIcon{tree}
+            \item<5-> \textbf{TREES!} Specifically Binary Trees
         \end{itemize}
         
         \column{0.5\textwidth}
@@ -82,6 +83,8 @@
         
         \pause
         
+        % is log(n) the best? no we WANT constant time. but sadly this is a presentation
+        % on red black trees not hash tables 
         \begin{alertblock}{The Magic}
             Logarithmic time = \textbf{Sports car performance!}
         \end{alertblock}
@@ -164,7 +167,7 @@
     \vspace{0.5cm}
     \pause
     \begin{center}
-        \Large\textbf{Our tree became a... \textcolor{rbred}{LINKED LIST!}}
+        \Large\textbf{Our tree became a... \textcolor{rbred}{LINKED LIST!}} Damn!
     \end{center}
 \end{frame}
 
@@ -282,7 +285,7 @@
                             child {node[blacknode] {7}}
                         }
                         child {node[blacknode] {14}
-                            child {node[nilnode] {}}
+                            child {node[blacknode] {}}
                             child {node[rednode] {15}}
                         };
                 \end{tikzpicture}
@@ -346,7 +349,7 @@
                         child {node[blacknode] {7}}
                     }
                     child {node[blacknode] {14}
-                        child {node[nilnode] {}}
+                        child {node[blacknode] {}}
                         child {node[rednode] {15}}
                     };
             \end{tikzpicture}
@@ -370,7 +373,7 @@
                     child {node[blacknode] {7}}
                 }
                 child {node[blacknode] {14}
-                    child {node[nilnode] {}}
+                    child {node[blacknode] {}}
                     child {node[rednode] {15}}
                 };
         \end{tikzpicture}
@@ -440,13 +443,15 @@
     
     \pause
     
-    \vspace{1cm}
+    \vspace{0.5cm}
     
     \begin{center}
-        \Large\textbf{How do we insert something?}\\[0.5cm]
+        \Large\textbf{How do we insert something?}\\[0.3cm]
         \pause
         \large\textit{*(I know everybody knows...)*} \faIcon{smile}
     \end{center}
+    
+    \vspace{0.5cm}
 \end{frame}
 
 % Insertion process
@@ -459,19 +464,19 @@
     
     \only<4->{
         \begin{center}
-            \begin{tikzpicture}[scale=0.7]
+            \begin{tikzpicture}[scale=0.6]
                 % Before
-                \node at (-3, 2) {\textbf{Before:}};
-                \node[blacknode] at (-3, 0) {10}
-                    child {node[blacknode] at (-4, -1) {5}}
-                    child {node[blacknode] at (-2, -1) {15}};
+                \node at (-2.5, 1.5) {\textbf{Before:}};
+                \node[blacknode] at (-2.5, 0) {10}
+                    child {node[blacknode] at (-3.5, -1) {5}}
+                    child {node[blacknode] at (-1.5, -1) {15}};
                 
                 % After
-                \node at (3, 2) {\textbf{After inserting 12:}};
-                \node[blacknode] at (3, 0) {10}
-                    child {node[blacknode] at (2, -1) {5}}
-                    child {node[rednode] at (4, -1) {15}
-                        child {node[rednode] at (3, -2) {12}}
+                \node at (2.5, 1.5) {\textbf{After inserting 12:}};
+                \node[blacknode] at (2.5, 0) {10}
+                    child {node[blacknode] at (1.5, -1) {5}}
+                    child {node[rednode] at (3.5, -1) {15}
+                        child {node[rednode] at (2.5, -2) {12}}
                         child[missing] {}
                     };
             \end{tikzpicture}
