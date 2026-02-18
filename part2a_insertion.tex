@@ -1,0 +1,450 @@
+% ============================================================
+% part2a_insertion.tex  –  Red-Black Tree: Insertion
+% ============================================================
+
+% ── Insertion process ──────────────────────────────────────
+\begin{frame}{Insertion: The Process}
+    \begin{enumerate}
+        \item<1-> Insert like a normal BST
+        \item<2-> Color the new node \textcolor{rbred}{\textbf{RED}}
+        \item<3-> Fix any violations
+    \end{enumerate}
+
+    \only<4->{
+        \begin{center}
+            \begin{tikzpicture}[scale=0.6]
+                \node at (-2.5,1.5) {\textbf{Before:}};
+                \node[blacknode] at (-2.5,0) {10}
+                    child {node[blacknode] {5}}
+                    child {node[blacknode] {15}};
+
+                \node at (2.5,1.5) {\textbf{After inserting 12:}};
+                \node[blacknode] at (2.5,0) {10}
+                    child {node[blacknode] {5}}
+                    child {node[rednode]  {15}
+                        child {node[rednode]{12}}
+                        child[missing] {}
+                    };
+            \end{tikzpicture}
+        \end{center}
+    }
+
+    \only<5->{
+        \begin{alertblock}{Problem!}
+            Two adjacent red nodes — Property 4 violated!
+        \end{alertblock}
+    }
+\end{frame}
+
+% ── Fixing violations ──────────────────────────────────────
+\begin{frame}{Fixing Violations}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Uncle is RED}
+            \begin{itemize}
+                \item Easy case!
+                \item Just recolor
+                \item Flip parent, uncle \& grandparent
+            \end{itemize}
+        \end{block}
+
+        \pause
+
+        \column{0.5\textwidth}
+        \begin{alertblock}{Uncle is BLACK}
+            \begin{itemize}
+                \item Hard case!
+                \item Need rotations
+                \item Left rotate, right rotate
+                \item Sometimes both!
+            \end{itemize}
+        \end{alertblock}
+    \end{columns}
+
+    \pause
+    \vspace{0.4cm}
+
+    \begin{center}
+        \Large\textcolor{rbred}{This is where it gets tricky!}\\[0.3cm]
+        \large But it keeps the tree balanced!
+    \end{center}
+\end{frame}
+
+% ── Remember the linked-list problem? ──────────────────────
+\begin{frame}{Remember This Problem?}
+    \begin{center}
+        \Large Let's try inserting \textbf{1, 2, 3, 4, 5} again\ldots\\[0.3cm]
+        \large But this time in a \textcolor{rbred}{Red-Black Tree}!
+    \end{center}
+
+    \pause
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{block}{Regular BST}
+            Became a linked list\\
+            Height $= 5$\\
+            $O(n)$ operations \textcolor{rbred}{\faIcon{sad-tear}}
+        \end{block}
+
+        \column{0.5\textwidth}
+        \pause
+        \begin{alertblock}{Red-Black Tree}
+            Let's see what happens\ldots\\
+            Will it stay balanced?\\
+            \textcolor{green!70!black}{\faIcon{magic}} Stay tuned!
+        \end{alertblock}
+    \end{columns}
+
+    \vspace{0.4cm}
+    \pause
+
+    \begin{center}
+        \Large\textbf{Watch the magic happen!}
+    \end{center}
+\end{frame}
+
+% ── Simulation progress bar helper ─────────────────────────
+% Drawn at the bottom of each simulation frame
+\newcommand{\simProgress}[2]{%
+    % #1 = current step (1-5), #2 = label text
+    \begin{tikzpicture}[scale=1]
+        \foreach \i in {1,...,5}{
+            \pgfmathsetmacro{\done}{(\i<=#1)?1:0}
+            \ifnum\i=#1
+                \node[circle, draw=rbred, fill=rbred, text=white,
+                      inner sep=2pt, minimum size=18pt,
+                      font=\bfseries\small] at (\i*0.9,0) {\i};
+            \else
+                \ifnum\i<#1
+                    \node[circle, draw=green!60!black, fill=green!60!black,
+                          text=white, inner sep=2pt, minimum size=18pt,
+                          font=\small] at (\i*0.9,0) {\checkmark};
+                \else
+                    \node[circle, draw=gray!50, fill=gray!15, text=gray,
+                          inner sep=2pt, minimum size=18pt,
+                          font=\small] at (\i*0.9,0) {\i};
+                \fi
+            \fi
+        }
+        \draw[gray!40,thick] (0.9,0) -- (4.5,0);
+    \end{tikzpicture}%
+    \quad\textcolor{gray}{\small #2}%
+}
+
+% ── Step 1: Insert 1 ───────────────────────────────────────
+\begin{frame}{Simulation — Step 1 of 5: Insert \textbf{1}}
+
+    \begin{center}
+        \simProgress{1}{Inserting 1}
+    \end{center}
+
+    \vspace{0.3cm}
+
+    \begin{columns}
+        \column{0.55\textwidth}
+        \begin{itemize}
+            \item<1-> First node is always the root
+            \item<2-> Color it \textcolor{rbblack}{\textbf{BLACK}}
+            \item<3-> Property 2: Root must be black \textcolor{green!70!black}{\faIcon{check}}
+        \end{itemize}
+
+        \column{0.45\textwidth}
+        \only<2->{
+            \begin{center}
+                \begin{tikzpicture}
+                    \node[blacknode] {1};
+                \end{tikzpicture}
+            \end{center}
+        }
+    \end{columns}
+
+    \vspace{0.3cm}
+    \only<3->{
+        \begin{block}{\faIcon{check-circle}\; All properties satisfied!}
+            Height $= 1$\quad Black-height $= 1$
+        \end{block}
+    }
+\end{frame}
+
+% ── Step 2: Insert 2 ───────────────────────────────────────
+\begin{frame}{Simulation — Step 2 of 5: Insert \textbf{2}}
+
+    \begin{center}
+        \simProgress{2}{Inserting 2}
+    \end{center}
+
+    \vspace{0.3cm}
+
+    \begin{columns}
+        \column{0.55\textwidth}
+        \begin{itemize}
+            \item<1-> Insert as right child of 1
+            \item<2-> Color it \textcolor{rbred}{\textbf{RED}}
+            \item<3-> Parent is \textbf{BLACK} $\Rightarrow$ no violation!
+        \end{itemize}
+
+        \column{0.45\textwidth}
+        \only<2->{
+            \begin{center}
+                \begin{tikzpicture}[scale=0.9]
+                    \node[blacknode] {1}
+                        child[missing] {}
+                        child {node[rednode] {2}};
+                \end{tikzpicture}
+            \end{center}
+        }
+    \end{columns}
+
+    \vspace{0.3cm}
+    \only<3->{
+        \begin{block}{\faIcon{check-circle}\; Still balanced!}
+            Height $= 2$\quad Black-height $= 1$
+        \end{block}
+    }
+\end{frame}
+
+% ── Step 3: Insert 3 ───────────────────────────────────────
+\begin{frame}{Simulation — Step 3 of 5: Insert \textbf{3} \textcolor{rbred}{(Fix needed!)}}
+
+    \begin{center}
+        \simProgress{3}{Inserting 3 — rotation required}
+    \end{center}
+
+    \vspace{0.2cm}
+
+    \begin{columns}[T]
+        \column{0.33\textwidth}
+        \only<1->{
+            \begin{center}
+                \textbf{\small After Insert}\\[0.25cm]
+                \begin{tikzpicture}[scale=0.7]
+                    \node[blacknode] {1}
+                        child[missing] {}
+                        child {node[rednode] {2}
+                            child[missing] {}
+                            child {node[rednode] {3}}
+                        };
+                \end{tikzpicture}\\[0.15cm]
+                \fcolorbox{red!80!black}{red!15}{\textcolor{red!70!black}{\bfseries\footnotesize\faIcon{exclamation-triangle}~VIOLATION}}
+            \end{center}
+        }
+
+        \column{0.33\textwidth}
+        \only<2->{
+            \begin{center}
+                \textbf{\small Left-Rotate at 1}\\[0.25cm]
+                \begin{tikzpicture}[scale=0.7]
+                    \node[rednode] {2}
+                        child {node[rednode] {1}}
+                        child {node[rednode] {3}};
+                \end{tikzpicture}\\[0.15cm]
+                {\small Rotation complete}
+            \end{center}
+        }
+
+        \column{0.33\textwidth}
+        \only<3->{
+            \begin{center}
+                \textbf{\small Recolor Root}\\[0.25cm]
+                \begin{tikzpicture}[scale=0.7]
+                    \node[blacknode] {2}
+                        child {node[rednode] {1}}
+                        child {node[rednode] {3}};
+                \end{tikzpicture}\\[0.15cm]
+                \fcolorbox{green!60!black}{green!15}{\textcolor{green!50!black}{\bfseries\footnotesize\faIcon{check-circle}~FIXED}}
+            \end{center}
+        }
+    \end{columns}
+
+    % Animated arrows between diagrams
+    \only<2->{\begin{tikzpicture}[remember picture,overlay]
+        \draw[->,ultra thick,orange!80!black,bend left=15]
+            ([xshift=3.5cm,yshift=3.8cm]current page.south west)
+            to node[above,font=\tiny\bfseries]{Rotate}
+            ([xshift=6cm,yshift=3.8cm]current page.south west);
+    \end{tikzpicture}}
+    \only<3->{\begin{tikzpicture}[remember picture,overlay]
+        \draw[->,ultra thick,blue!70,bend left=15]
+            ([xshift=6.8cm,yshift=3.8cm]current page.south west)
+            to node[above,font=\tiny\bfseries]{Recolor}
+            ([xshift=9.3cm,yshift=3.8cm]current page.south west);
+    \end{tikzpicture}}
+
+    \vspace{0.2cm}
+    \only<3->{
+        \begin{block}{\faIcon{check-circle}\; Balanced!}
+            Height $= 2$\quad (BST would be $3$)
+        \end{block}
+    }
+\end{frame}
+
+% ── Step 4: Insert 4 ───────────────────────────────────────
+\begin{frame}{Simulation — Step 4 of 5: Insert \textbf{4}}
+
+    \begin{center}
+        \simProgress{4}{Inserting 4 — uncle recolor}
+    \end{center}
+
+    \vspace{0.2cm}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item<1-> Insert as right child of 3
+            \item<2-> Color it \textcolor{rbred}{\textbf{RED}}
+            \item<3-> Parent (3) is red — violation!
+            \item<4-> Uncle (1) is also red
+            \item<5-> Recolor: flip parent, uncle \& grandparent
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \only<2-4>{
+            \begin{center}
+                \textbf{After Insert}\\[0.2cm]
+                \begin{tikzpicture}[scale=0.75]
+                    \node[blacknode] {2}
+                        child {node[rednode] {1}}
+                        child {node[rednode] {3}
+                            child[missing] {}
+                            child {node[rednode] {4}}
+                        };
+                \end{tikzpicture}\\[0.15cm]
+                \only<3->{\fcolorbox{red!80!black}{red!15}{\textcolor{red!70!black}{\bfseries\footnotesize\faIcon{exclamation-triangle}~VIOLATION}}}
+            \end{center}
+        }
+        \only<5->{
+            \begin{center}
+                \textbf{After Recolor}\\[0.2cm]
+                \begin{tikzpicture}[scale=0.75]
+                    \node[blacknode] {2}
+                        child {node[blacknode] {1}}
+                        child {node[blacknode] {3}
+                            child[missing] {}
+                            child {node[rednode] {4}}
+                        };
+                \end{tikzpicture}\\[0.15cm]
+                \fcolorbox{green!60!black}{green!15}{\textcolor{green!50!black}{\bfseries\footnotesize\faIcon{check-circle}~FIXED}}
+            \end{center}
+        }
+    \end{columns}
+
+    \vspace{0.2cm}
+    \only<5->{
+        \begin{block}{\faIcon{check-circle}\; Still balanced!}
+            Height $= 3$\quad Black-height preserved
+        \end{block}
+    }
+\end{frame}
+
+% ── Step 5: Insert 5 ───────────────────────────────────────
+\begin{frame}{Simulation — Step 5 of 5: Insert \textbf{5} \textcolor{rbred}{(Final Fix!)}}
+
+    \begin{center}
+        \simProgress{5}{Inserting 5 — rotation + recolor}
+    \end{center}
+
+    \vspace{0.2cm}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item<1-> Insert as right child of 4
+            \item<2-> Color it \textcolor{rbred}{\textbf{RED}}
+            \item<3-> Parent (4) is red — violation!
+            \item<4-> Uncle is \textbf{BLACK} (NIL)
+            \item<5-> Left-rotate at 3, then recolor
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \only<2-4>{
+            \begin{center}
+                \textbf{Before Fix}\\[0.2cm]
+                \begin{tikzpicture}[scale=0.65]
+                    \node[blacknode] {2}
+                        child {node[blacknode] {1}}
+                        child {node[blacknode] {3}
+                            child[missing] {}
+                            child {node[rednode] {4}
+                                child[missing] {}
+                                child {node[rednode] {5}}
+                            }
+                        };
+                \end{tikzpicture}\\[0.1cm]
+                \only<3->{\fcolorbox{red!80!black}{red!15}{\textcolor{red!70!black}{\bfseries\footnotesize\faIcon{exclamation-triangle}~VIOLATION}}}
+            \end{center}
+        }
+        \only<5->{
+            \begin{center}
+                \textbf{Final Tree}\\[0.2cm]
+                \begin{tikzpicture}[scale=0.7]
+                    \node[blacknode] {2}
+                        child {node[blacknode] {1}}
+                        child {node[blacknode] {4}
+                            child {node[rednode] {3}}
+                            child {node[rednode] {5}}
+                        };
+                \end{tikzpicture}\\[0.1cm]
+                \fcolorbox{cyan!60!blue}{cyan!10}{\textcolor{cyan!50!blue}{\bfseries\footnotesize\faIcon{star}~PERFECT}}
+            \end{center}
+        }
+    \end{columns}
+\end{frame}
+
+% ── Comparison ─────────────────────────────────────────────
+\begin{frame}{The Difference is HUGE!}
+    \begin{center}
+        \Large\textbf{BST vs.\ Red-Black Tree}\\[0.2cm]
+        \small Inserting \{1, 2, 3, 4, 5\} in order
+    \end{center}
+
+    \vspace{0.3cm}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+            \textbf{Regular BST}\\[0.2cm]
+            \begin{tikzpicture}[scale=0.38]
+                \node[blacknode] {1}
+                    child[missing] {}
+                    child {node[blacknode] {2}
+                        child[missing] {}
+                        child {node[blacknode] {3}
+                            child[missing] {}
+                            child {node[blacknode] {4}
+                                child[missing] {}
+                                child {node[blacknode] {5}}
+                            }
+                        }
+                    };
+            \end{tikzpicture}
+        \end{center}
+        \begin{alertblock}{\faIcon{times-circle}\; Bad}
+            Height $= 5$ \textbullet{} Degenerate \textbullet{} $O(n)$ ops
+        \end{alertblock}
+
+        \column{0.5\textwidth}
+        \begin{center}
+            \textbf{Red-Black Tree}\\[0.2cm]
+            \begin{tikzpicture}[scale=0.65]
+                \node[blacknode] {2}
+                    child {node[blacknode] {1}}
+                    child {node[blacknode] {4}
+                        child {node[rednode] {3}}
+                        child {node[rednode] {5}}
+                    };
+            \end{tikzpicture}
+        \end{center}
+        \begin{block}{\faIcon{check-circle}\; Excellent!}
+            Height $= 3$ \textbullet{} Balanced \textbullet{} $O(\log n)$ ops
+        \end{block}
+    \end{columns}
+
+    \pause
+    \vspace{0.3cm}
+    \begin{center}
+        \Huge\textcolor{green!60!black}{\faIcon{check-circle}}\;
+        \textbf{Self-Balancing Magic!}\;
+        \textcolor{green!60!black}{\faIcon{magic}}
+    \end{center}
+\end{frame}

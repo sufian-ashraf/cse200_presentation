@@ -1,0 +1,321 @@
+% ============================================================
+% part2b_deletion.tex  –  Red-Black Tree: Deletion
+% ============================================================
+
+% ── Deletion intro ─────────────────────────────────────────
+\begin{frame}{Deletion: Even More Fun!}
+    \begin{center}
+        \Large\textbf{Deletion is even more\ldots\ interesting!} \faIcon{smile}
+    \end{center}
+
+    \pause
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+            \textbf{Deleting a \textcolor{rbred}{RED} node}
+        \end{center}
+        \begin{itemize}
+            \item No problem!
+            \item Just remove it
+            \item Properties still hold
+        \end{itemize}
+
+        \column{0.5\textwidth}
+        \pause
+        \begin{center}
+            \textbf{Deleting a \textbf{BLACK} node}
+        \end{center}
+        \begin{itemize}
+            \item Oh boy\ldots
+            \item Black height changes!
+            \item Need ``double black'' fix
+            \item Complex cases
+        \end{itemize}
+    \end{columns}
+
+    \pause
+    \vspace{0.4cm}
+    \begin{center}
+        \Large\textbf{Let's see both cases\ldots}
+    \end{center}
+\end{frame}
+
+% ── Deletion Decision Flowchart (HORIZONTAL LAYOUT) ──────────
+\begin{frame}{Deletion Decision Flowchart}
+    \vspace{0.1cm}
+    \begin{center}
+    \begin{tikzpicture}[scale=0.8, every node/.style={transform shape},
+        node distance = 0.6cm and 1.2cm,
+        decision/.style = {diamond, draw=blue!60, fill=blue!12,
+                           text width=3.5em, text centered,
+                           inner sep=0pt, minimum height=2.3em,
+                           font=\scriptsize},
+        action/.style   = {rectangle, draw=green!60!black, fill=green!12,
+                           text width=4.5em, text centered,
+                           rounded corners=3pt, minimum height=1.8em,
+                           font=\scriptsize},
+        problem/.style  = {rectangle, draw=red!60, fill=red!12,
+                           text width=4.5em, text centered,
+                           rounded corners=3pt, minimum height=1.8em,
+                           font=\scriptsize},
+        arrow/.style    = {thick,->,>=stealth}]
+
+        % Start node
+        \node[decision] (del) {Delete\\Node};
+        \node[decision, right=1.5cm of del] (isred) {Is node\\RED?};
+
+        % TOP branch (YES - RED node - easy path)
+        \node[action, above right=0.3cm and 1.2cm of isred] (remove) {Simply\\Remove};
+        \node[action, right=0.8cm of remove] (done1) {\faIcon{check}\\Done!};
+
+        % BOTTOM branch (NO - BLACK node - hard path)
+        \node[problem, below right=0.3cm and 1.2cm of isred] (black) {BLACK\\Node};
+        \node[decision, right=0.8cm of black] (sibling) {Check\\Sibling};
+        \node[problem, right=0.8cm of sibling] (cases) {Apply\\4 Cases};
+        \node[action, right=0.8cm of cases] (done2) {Rebalance\\\faIcon{check}};
+
+        % Arrows
+        \draw[arrow] (del) -- (isred);
+        \draw[arrow] (isred) |- node[above,near start,font=\tiny]{Yes} (remove);
+        \draw[arrow] (remove) -- (done1);
+        \draw[arrow] (isred) |- node[below,near start,font=\tiny]{No} (black);
+        \draw[arrow] (black) -- (sibling);
+        \draw[arrow] (sibling) -- (cases);
+        \draw[arrow] (cases) -- (done2);
+    \end{tikzpicture}
+    \end{center}
+
+    \vspace{0.3cm}
+    \begin{center}
+        \textcolor{green!60!black}{\textbf{Top path (RED)}} = easy \quad
+        \textcolor{red!60}{\textbf{Bottom path (BLACK)}} = complex
+    \end{center}
+\end{frame}
+
+% ── Easy case: Deleting RED node ───────────────────────────
+\begin{frame}{Case 1: Deleting a \textcolor{rbred}{RED} Node (Easy!)}
+    \begin{center}
+        \Large Delete \textbf{5} from our tree
+    \end{center}
+
+    \vspace{0.3cm}
+
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{center}
+            \textbf{Before}\\[0.25cm]
+            \begin{tikzpicture}[scale=0.8]
+                \node[blacknode] {2}
+                    child {node[blacknode] {1}}
+                    child {node[blacknode] {4}
+                        child {node[rednode] {3}}
+                        child {node[rednode] {5}}
+                    };
+            \end{tikzpicture}
+        \end{center}
+
+        \column{0.5\textwidth}
+        \pause
+        \begin{center}
+            \textbf{After}\\[0.25cm]
+            \begin{tikzpicture}[scale=0.8]
+                \node[blacknode] {2}
+                    child {node[blacknode] {1}}
+                    child {node[blacknode] {4}
+                        child {node[rednode] {3}}
+                        child[missing] {}
+                    };
+            \end{tikzpicture}
+        \end{center}
+    \end{columns}
+
+    \vspace{0.3cm}
+    \pause
+
+    \begin{center}
+        \textbf{Why It's Easy}
+    \end{center}
+    \begin{itemize}
+        \item Node 5 is \textcolor{rbred}{RED} and a leaf
+        \item Simply remove it — black-height unchanged on all paths
+        \item All properties still satisfied!
+    \end{itemize}
+
+    \pause
+    \begin{center}
+        \Large\textcolor{green!60!black}{\faIcon{check}}\; Done! That was nice!
+    \end{center}
+\end{frame}
+
+% ── Hard case: Deleting BLACK node ─────────────────────────
+\begin{frame}{Case 2: Deleting a \textbf{BLACK} Node (Uh oh\ldots)}
+    \begin{center}
+        \Large Delete \textbf{1} from our tree
+    \end{center}
+
+    \vspace{0.2cm}
+
+    \begin{columns}
+        \column{0.33\textwidth}
+        \begin{center}
+            \textbf{Before}\\[0.15cm]
+            \begin{tikzpicture}[scale=0.65]
+                \node[blacknode] (n2) {2}
+                    child {node[blacknode] (n1) {1}}
+                    child {node[blacknode] (n4) {4}
+                        child {node[rednode] {3}}
+                        child[missing] {}
+                    };
+                \draw[red, very thick, dashed] (n1) circle (0.55cm);
+            \end{tikzpicture}
+        \end{center}
+
+        \column{0.33\textwidth}
+        \pause
+        \begin{center}
+            \textbf{After Delete}\\[0.15cm]
+            \begin{tikzpicture}[scale=0.65, every node/.style={transform shape}]
+                \node[blacknode] (root) {2}
+                    child {node[draw=none,fill=none,text=gray!50] (left) {X}} % X is the double-black placeholder
+                    child {node[blacknode] (right) {4}
+                        child {node[rednode] (r3) {3}}
+                        child[missing] {}
+                    };
+                
+                % Stable Arrow for Short Path (Left)
+                \draw[->,thick,red] (left.south) -- ++(0,-0.6) 
+                    node[below, font=\tiny\bfseries] {Short};
+                    
+                % Stable Arrow for Long Path (Right)
+                \draw[->,thick,green!50!black] (r3.south) -- ++(0,-0.6) 
+                    node[below, font=\tiny\bfseries]{Long};
+            \end{tikzpicture}\\[0.1cm]
+            \fcolorbox{red!80!black}{red!15}{\textcolor{red!70!black}{\bfseries\footnotesize\faIcon{times}~IMBALANCED}}
+        \end{center}
+
+        \column{0.33\textwidth}
+        \pause
+        \begin{center}
+            \textbf{After Fix}\\[0.15cm]
+            \begin{tikzpicture}[scale=0.65, every node/.style={transform shape}]
+                % The balanced result after rotation and recoloring
+                \node[blacknode] (n3) {3}
+                    child {node[blacknode] (n2) {2}}
+                    child {node[blacknode] (n4) {4}};
+
+                % Annotation for the rotation
+                \draw[<->, bend left, thick, blue!60] (n3.north) to node[above, font=\tiny, text=blue!80!black] {Right Rotate} (n2.north west);
+                
+            \end{tikzpicture}\\[0.1cm]
+            
+            % Status Box
+            \fcolorbox{green!60!black}{green!15}{%
+                \textcolor{green!50!black}{\bfseries\footnotesize\faIcon{check-circle}~BALANCED}%
+            }
+            
+            % Specific actions taken
+            \vspace{0.2cm}
+            \begin{itemize}
+                \item {\tiny \faIcon{sync} \textbf{Rotate:} Right at 4, then 2}
+                \item {\tiny \faIcon{paint-brush} \textbf{Recolor:} 3 $\to$ Black}
+            \end{itemize}
+        \end{center}
+    \end{columns}
+
+    \vspace{0.2cm}
+    \pause
+\end{frame}
+
+
+\begin{frame}{Black Node Deletion: The 4 Cases}
+    % Compact tree styling - shorter and wider
+    \tikzset{
+        every node/.style={transform shape, scale=0.35},
+        level distance=12mm,
+        sibling distance=8mm,
+        highlight/.style={draw=blue, ultra thick, inner sep=1pt},
+        ghost/.style={opacity=0.3}
+    }
+
+    \vspace{-0.2cm}
+
+    % Using top-aligned columns for better vertical distribution
+    \begin{columns}[t, onlytextwidth]
+        % --- LEFT COLUMN ---
+        \column{0.48\textwidth}
+        \begin{block}{Case 1: Sibling RED}<1->
+            \vspace{-0.25cm}
+            \centering
+            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+                \node[blacknode] {P}
+                    child {node[blacknode, ghost] {X}}
+                    child {node[rednode, highlight] {S} 
+                        child {node[blacknode] {L}}
+                        child {node[blacknode] {R}}
+                    };
+            \end{tikzpicture}\\[-0.1cm]
+            {\tiny Rotate \& Recolor \faIcon{sync}}
+            \vspace{-0.25cm}
+        \end{block}
+
+        \vspace{0.1cm}
+
+        \begin{block}{Case 3: Left RED}<3->
+            \vspace{-0.25cm}
+            \centering
+            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+                \node[blacknode] {P}
+                    child {node[blacknode, ghost] {X}}
+                    child {node[blacknode] {S}
+                        child {node[rednode, highlight] {L}}
+                        child {node[blacknode] {R}}
+                    };
+            \end{tikzpicture}\\[-0.1cm]
+            {\tiny Right-rotate at S \faIcon{redo}}
+            \vspace{-0.25cm}
+        \end{block}
+
+        % --- RIGHT COLUMN ---
+        \column{0.48\textwidth}
+        \begin{block}{Case 2: All BLACK}<2->
+            \vspace{-0.25cm}
+            \centering
+            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+                \node[blacknode] {P}
+                    child {node[blacknode, ghost] {X}}
+                    child {node[blacknode, highlight] {S}
+                        child {node[blacknode] {L}}
+                        child {node[blacknode] {R}}
+                    };
+            \end{tikzpicture}\\[-0.1cm]
+            {\tiny Recolor S to RED \faIcon{paint-brush}}
+            \vspace{-0.25cm}
+        \end{block}
+
+        \vspace{0.1cm}
+
+        \begin{block}{Case 4: Right RED}<4->
+            \vspace{-0.25cm}
+            \centering
+            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+                \node[blacknode] {P}
+                    child {node[blacknode, ghost] {X}}
+                    child {node[blacknode] {S}
+                        child {node[blacknode] {L}}
+                        child {node[rednode, highlight] {R}}
+                    };
+            \end{tikzpicture}\\[-0.1cm]
+            {\tiny Left-rotate at P \faIcon{undo}}
+            \vspace{-0.25cm}
+        \end{block}
+    \end{columns}
+
+    % Goal footer only appears on final step to save space initially
+    \only<5->{
+        \vspace{0.1cm}
+        \begin{center}
+            {\tiny\faIcon{lightbulb} Goal: Move RED to short path or recolor}
+        \end{center}
+    }
+\end{frame}

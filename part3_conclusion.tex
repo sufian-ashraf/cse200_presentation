@@ -1,0 +1,97 @@
+% Real-world applications
+\begin{frame}{Where Are Red-Black Trees Used?}
+    \begin{center}
+        \Large\textbf{Everywhere!}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}
+        \column{0.5\textwidth}
+        \begin{itemize}
+            \item<2-> \faIcon{linux} \textbf{Linux Kernel}\\
+                \small Process scheduling
+            \item<3-> \faIcon{java} \textbf{Java}\\
+                \small TreeMap, TreeSet
+            \item<4-> \faIcon{database} \textbf{Databases}\\
+                \small Indexing structures
+            \item<5-> \faIcon{folder} \textbf{File Systems}\\
+                \small Directory organization
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \only<6->{
+            \begin{center}
+                \begin{tikzpicture}
+                    \node[draw, thick, rounded corners, fill=rbred!10, text width=5cm, align=center, minimum height=2cm] {
+                        \Large\textbf{Every time you use these...}\\[0.3cm]
+                        \large You're benefiting from\\
+                        \textbf{Red-Black Trees!}
+                    };
+                \end{tikzpicture}
+            \end{center}
+        }
+    \end{columns}
+\end{frame}
+
+% Conclusion
+\begin{frame}{So There You Have It!}
+    \begin{center}
+        \Large\textbf{Red-Black Trees in a Nutshell}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}
+        \column{0.6\textwidth}
+        \begin{itemize}
+            \item<2-> Complex but incredibly powerful
+            \item<3-> Tricky to implement
+            \item<4-> Guaranteed $O(\log n)$ performance
+            \item<5-> Used everywhere in computing
+        \end{itemize}
+        
+        \column{0.4\textwidth}
+        \only<6->{
+            \begin{center}
+                \begin{tikzpicture}[scale=0.6]
+                    \node[blacknode] {11}
+                        child {node[rednode] {2}
+                            child {node[blacknode] {1}}
+                            child {node[blacknode] {7}}
+                        }
+                        child {node[blacknode] {14}
+                            child {node[nilnode] {}}
+                            child {node[rednode] {15}}
+                        };
+                \end{tikzpicture}
+            \end{center}
+        }
+    \end{columns}
+    
+    \pause[7]
+    
+    \vspace{0.5cm}
+    
+    \begin{center}
+        \begin{alertblock}{Remember}
+            The next time you're struggling with RBT implementation...\\[0.3cm]
+            \large Even the \textbf{inventor} moved on to Left-Leaning Red-Black Trees! \faIcon{laugh}
+        \end{alertblock}
+    \end{center}
+    
+    \pause
+    
+    \begin{center}
+        \Large\textbf{Thanks for listening!}\\[0.3cm]
+        \large May your trees always stay balanced! \faIcon{tree}
+    \end{center}
+\end{frame}
+
+% Questions slide
+\begin{frame}
+    \begin{center}
+        \Huge\textbf{Any Questions?}\\[1cm]
+        \Large\faIcon{comments}
+    \end{center}
+\end{frame}

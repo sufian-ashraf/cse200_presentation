@@ -1,0 +1,44 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+\usecolortheme{crane}
+
+\usepackage{amsmath, amssymb}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{fontawesome5}
+
+\usetikzlibrary{trees, positioning, arrows.meta, shapes.geometric}
+
+% Custom colors for red-black trees
+\definecolor{rbred}{RGB}{220, 38, 127}
+\definecolor{rbblack}{RGB}{33, 33, 33}
+\definecolor{rbgray}{RGB}{200, 200, 200}
+
+% TikZ styles for tree nodes
+\tikzset{
+    rbnode/.style={circle, draw, thick, minimum size=8mm, font=\small\bfseries},
+    rednode/.style={rbnode, fill=rbred!20, text=rbred, draw=rbred},
+    blacknode/.style={rbnode, fill=rbblack!10, text=rbblack, draw=rbblack},
+    nilnode/.style={rbnode, fill=rbgray!30, text=rbgray, draw=rbgray, minimum size=6mm}
+}
+
+\title{Red-Black Trees}
+\subtitle{Why Even the Inventor Moved On...}
+\author{Your Name}
+\date{\today}
+
+\begin{document}
+
+% Part 1: Introduction to Insertion warning
+\input{part1_introduction}
+
+% Part 2a: Insertion
+\input{part2a_insertion}
+
+% Part 2b: Deletion
+\input{part2b_deletion}
+
+% Part 3: Applications and Conclusion
+\input{part3_conclusion}
+
+\end{document}
