@@ -204,8 +204,6 @@
                     child {node[blacknode] (n2) {2}}
                     child {node[blacknode] (n4) {4}};
 
-                % Annotation for the rotation
-                \draw[<->, bend left, thick, blue!60] (n3.north) to node[above, font=\tiny, text=blue!80!black] {Right Rotate} (n2.north west);
                 
             \end{tikzpicture}\\[0.1cm]
             
@@ -228,94 +226,214 @@
 \end{frame}
 
 
-\begin{frame}{Black Node Deletion: The 4 Cases}
-    % Compact tree styling - shorter and wider
-    \tikzset{
-        every node/.style={transform shape, scale=0.35},
-        level distance=12mm,
-        sibling distance=8mm,
-        highlight/.style={draw=blue, ultra thick, inner sep=1pt},
-        ghost/.style={opacity=0.3}
+% ── Cases 1 & 2 ─────────────────────────────────────────────
+% Unified warm-amber block style matching the crane/orange theme
+\setbeamercolor{block title}{bg=orange!70!black, fg=white}
+\setbeamercolor{block body}{bg=orange!8!white, fg=black}
+\begin{frame}[shrink=15]{Black Node Deletion Cases 1 \& 2}
+
+    \begin{center}
+    {\scriptsize
+        \textbf{P}=Parent \enspace
+        \textbf{S}=Sibling \enspace
+        \textbf{L/R}=S's children \enspace
+        \tikz[baseline=-0.5ex]\node[circle,draw=rbblack,fill=rbblack!10,
+            text=rbblack,dashed,font=\bfseries\scriptsize,minimum size=5mm,
+            inner sep=0pt]{DB}; = Double-Black node
     }
+    \end{center}
 
-    \vspace{-0.2cm}
+    \vspace{0.02cm}
 
-    % Using top-aligned columns for better vertical distribution
     \begin{columns}[t, onlytextwidth]
-        % --- LEFT COLUMN ---
-        \column{0.48\textwidth}
-        \begin{block}{Case 1: Sibling RED}<1->
-            \vspace{-0.25cm}
-            \centering
-            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+
+        \column{0.49\textwidth}
+        \begin{block}{\faIcon{exchange-alt}\; Case 1: Sibling is RED}
+            \centering\vspace{0.02cm}
+            \begin{tikzpicture}[scale=0.82, every node/.style={transform shape},
+                level distance=9mm, sibling distance=10mm,
+                every node/.style={font=\small\bfseries, transform shape}]
                 \node[blacknode] {P}
-                    child {node[blacknode, ghost] {X}}
-                    child {node[rednode, highlight] {S} 
+                    child {node[circle,draw=rbblack!70,fill=rbblack!8,
+                                text=rbblack,dashed,minimum size=7mm,
+                                font=\bfseries\small] {DB}}
+                    child {node[rednode,draw=rbred,ultra thick] {S}
                         child {node[blacknode] {L}}
                         child {node[blacknode] {R}}
                     };
-            \end{tikzpicture}\\[-0.1cm]
-            {\tiny Rotate \& Recolor \faIcon{sync}}
-            \vspace{-0.25cm}
+            \end{tikzpicture}
+
+            \vspace{0.03cm}
+            {\footnotesize\faIcon{sync-alt}~\textbf{Fix:} Rotate P left,
+             recolor S $\to$ Black, P $\to$ Red\\[0.02cm]
+            \textit{Converts to Case 2, 3, or 4}}
         \end{block}
 
-        \vspace{0.1cm}
-
-        \begin{block}{Case 3: Left RED}<3->
-            \vspace{-0.25cm}
-            \centering
-            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
+        \column{0.49\textwidth}
+        \begin{block}{\faIcon{paint-brush}\; Case 2: Sibling \& Children all BLACK}
+            \centering\vspace{0.02cm}
+            \begin{tikzpicture}[scale=0.82, every node/.style={transform shape},
+                level distance=9mm, sibling distance=10mm,
+                every node/.style={font=\small\bfseries, transform shape}]
                 \node[blacknode] {P}
-                    child {node[blacknode, ghost] {X}}
-                    child {node[blacknode] {S}
-                        child {node[rednode, highlight] {L}}
-                        child {node[blacknode] {R}}
-                    };
-            \end{tikzpicture}\\[-0.1cm]
-            {\tiny Right-rotate at S \faIcon{redo}}
-            \vspace{-0.25cm}
-        \end{block}
-
-        % --- RIGHT COLUMN ---
-        \column{0.48\textwidth}
-        \begin{block}{Case 2: All BLACK}<2->
-            \vspace{-0.25cm}
-            \centering
-            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
-                \node[blacknode] {P}
-                    child {node[blacknode, ghost] {X}}
-                    child {node[blacknode, highlight] {S}
-                        child {node[blacknode] {L}}
-                        child {node[blacknode] {R}}
-                    };
-            \end{tikzpicture}\\[-0.1cm]
-            {\tiny Recolor S to RED \faIcon{paint-brush}}
-            \vspace{-0.25cm}
-        \end{block}
-
-        \vspace{0.1cm}
-
-        \begin{block}{Case 4: Right RED}<4->
-            \vspace{-0.25cm}
-            \centering
-            \begin{tikzpicture}[level distance=10mm, sibling distance=7mm]
-                \node[blacknode] {P}
-                    child {node[blacknode, ghost] {X}}
+                    child {node[circle,draw=rbblack!70,fill=rbblack!8,
+                                text=rbblack,dashed,minimum size=7mm,
+                                font=\bfseries\small] {DB}}
                     child {node[blacknode] {S}
                         child {node[blacknode] {L}}
-                        child {node[rednode, highlight] {R}}
+                        child {node[blacknode] {R}}
                     };
-            \end{tikzpicture}\\[-0.1cm]
-            {\tiny Left-rotate at P \faIcon{undo}}
-            \vspace{-0.25cm}
+            \end{tikzpicture}
+
+            \vspace{0.03cm}
+            {\footnotesize\faIcon{arrow-up}~\textbf{Fix:} Recolor S $\to$ Red,\\
+             push Double-Black up to P\\[0.02cm]
+            \textit{Repeat fix from P if P was Black}}
         \end{block}
+
     \end{columns}
 
-    % Goal footer only appears on final step to save space initially
-    \only<5->{
-        \vspace{0.1cm}
-        \begin{center}
-            {\tiny\faIcon{lightbulb} Goal: Move RED to short path or recolor}
-        \end{center}
+    \vspace{0.03cm}
+    \begin{center}
+        {\small\textcolor{gray}{\textit{Case 1 always leads to Case 2, 3, or 4 after rotation}}}
+    \end{center}
+\end{frame}
+
+% ── Cases 3 & 4 ─────────────────────────────────────────────
+\setbeamercolor{block title}{bg=orange!70!black, fg=white}
+\setbeamercolor{block body}{bg=orange!8!white, fg=black}
+\begin{frame}[shrink=15]{Black Node Deletion Cases 3 \& 4}
+
+    \begin{center}
+    {\scriptsize
+        \textbf{P}=Parent \enspace
+        \textbf{S}=Sibling \enspace
+        \textbf{L/R}=S's children \enspace
+        \tikz[baseline=-0.5ex]\node[circle,draw=rbblack,fill=rbblack!10,
+            text=rbblack,dashed,font=\bfseries\scriptsize,minimum size=5mm,
+            inner sep=0pt]{DB}; = Double-Black node
     }
+    \end{center}
+
+    \vspace{0.02cm}
+
+    \begin{columns}[t, onlytextwidth]
+
+        \column{0.49\textwidth}
+        \begin{block}{\faIcon{redo}\; Case 3: Sibling's \textcolor[RGB]{120,20,30}{\textbf{Left}} child is RED}
+            \centering\vspace{0.02cm}
+            \begin{tikzpicture}[scale=0.82, every node/.style={transform shape},
+                level distance=9mm, sibling distance=10mm,
+                every node/.style={font=\small\bfseries, transform shape}]
+                \node[blacknode] {P}
+                    child {node[circle,draw=rbblack!70,fill=rbblack!8,
+                                text=rbblack,dashed,minimum size=7mm,
+                                font=\bfseries\small] {DB}}
+                    child {node[blacknode] {S}
+                        child {node[rednode,ultra thick] {L}}
+                        child {node[blacknode] {R}}
+                    };
+            \end{tikzpicture}
+
+            \vspace{0.03cm}
+            {\footnotesize\faIcon{redo}~\textbf{Fix:} Right-rotate at S,
+             swap colors of S \& L\\[0.02cm]
+            \textit{Transforms into Case 4}}
+        \end{block}
+
+        \column{0.49\textwidth}
+        \begin{block}{\faIcon{undo}\; Case 4: Sibling's Right child is RED}
+            \centering\vspace{0.02cm}
+            \begin{tikzpicture}[scale=0.82, every node/.style={transform shape},
+                level distance=9mm, sibling distance=10mm,
+                every node/.style={font=\small\bfseries, transform shape}]
+                \node[blacknode] {P}
+                    child {node[circle,draw=rbblack!70,fill=rbblack!8,
+                                text=rbblack,dashed,minimum size=7mm,
+                                font=\bfseries\small] {DB}}
+                    child {node[blacknode] {S}
+                        child {node[blacknode] {L}}
+                        child {node[rednode,ultra thick] {R}}
+                    };
+            \end{tikzpicture}
+
+            \vspace{0.03cm}
+            {\footnotesize\faIcon{undo}~\textbf{Fix:} Left-rotate at P,
+             recolor R $\to$ Black\\[0.02cm]
+            \textbf{\textcolor{green!60!black}{\faIcon{check} Double-Black resolved!}}}
+        \end{block}
+
+    \end{columns}
+
+    \vspace{0.03cm}
+    \begin{center}
+        {\textcolor{orange!70!black}{\faIcon{lightbulb}\;
+        \textbf{Goal:} Always eventually reach Case 4 to fully eliminate Double-Black}}
+    \end{center}
+\end{frame}
+
+
+% ── Confused Meme Slide ─────────────────────────────────────
+\begin{frame}{Umm\ldots\ What?}
+    \begin{columns}[c]
+        \column{0.48\textwidth}
+        \begin{center}
+            \includegraphics[width=0.85\textwidth]{images/confused_cat.jpg}
+        \end{center}
+
+        \column{0.52\textwidth}
+        \begin{center}
+            {\Large\textbf{What just happened?}}
+
+            \vspace{0.5cm}
+
+            {\large\textit{``Four cases?\\[0.15cm]
+             Rotations?\\[0.15cm]
+             Recoloring?\\[0.3cm]
+             Help!''}}
+
+            \vspace{0.5cm}
+
+            {\small\textcolor{gray}{Don't worry — even textbooks\\ span 20+ pages on this.}}
+        \end{center}
+    \end{columns}
+\end{frame}
+
+% ── Assurance Slide ─────────────────────────────────────────
+\begin{frame}{Don't Worry!}
+    \begin{center}
+        {\normalsize\textbf{We know deletion is complex — and that's\, \textcolor{orange!80!red}{\textit{okay}!}}}
+    \end{center}
+
+    \vspace{0.1cm}
+
+    \begin{alertblock}{\faIcon{exclamation-triangle}\; The Reality}
+        \begin{itemize}\setlength\itemsep{0pt}
+            \item The deletion algorithm is \textbf{huge} with many edge cases
+            \item Each of the 4 cases has intricate implementation details
+            \item Full implementation can span \textbf{hundreds} of lines
+        \end{itemize}
+    \end{alertblock}
+
+    \vspace{0.08cm}
+
+    \begin{center}
+        \normalsize\textcolor{blue!80}{\faIcon{forward}\;\textbf{We'll skip the gory details for now!}}
+    \end{center}
+
+    \vspace{0.02cm}
+
+    \begin{exampleblock}{\faIcon{lightbulb}\; If You're Interested\ldots}
+        \begin{itemize}\setlength\itemsep{0pt}
+            \item CLRS Chapter 13 — full pseudocode \& proofs
+            \item Online visualizer: \texttt{visualgo.net}
+            \item GitHub implementations in your favourite language
+        \end{itemize}
+    \end{exampleblock}
+
+    \vspace{0.06cm}
+
+    \begin{center}
+        {\small\textit{\faIcon{brain}\; Focus on the \textbf{concepts}, not memorising every case!}}
+    \end{center}
 \end{frame}
