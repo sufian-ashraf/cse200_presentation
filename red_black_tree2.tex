@@ -5,29 +5,52 @@
 \usepackage{amsmath, amssymb}
 \usepackage{tikz}
 \usepackage{xcolor}
+\usepackage{graphicx}
 \usepackage{fontawesome5}
+\usepackage{animate}
+\usepackage{biblatex}
+\addbibresource{references.bib}
 
-\usetikzlibrary{trees, positioning, arrows.meta, shapes.geometric}
+\usetikzlibrary{trees, positioning, arrows.meta, shapes.geometric,decorations.pathreplacing}
 
 % Custom colors for red-black trees
+% ── Custom colors ──────────────────────────────────────────────
 \definecolor{rbred}{RGB}{220, 38, 127}
 \definecolor{rbblack}{RGB}{33, 33, 33}
 \definecolor{rbgray}{RGB}{200, 200, 200}
+\definecolor{accent}{RGB}{230, 160, 0}
+\definecolor{goodgreen}{RGB}{34, 139, 34}
+\definecolor{badred}{RGB}{180, 20, 20}
+\definecolor{lightbg}{RGB}{252, 248, 240}
+\definecolor{highlight}{RGB}{30, 100, 200}
+\definecolor{deepblue}{RGB}{30, 100, 200}
 
-% TikZ styles for tree nodes
+% ── TikZ node styles ───────────────────────────────────────────
 \tikzset{
-    rbnode/.style={circle, draw, thick, minimum size=8mm, font=\small\bfseries},
+    rbnode/.style={circle, draw, thick, minimum size=9mm, font=\small\bfseries},
     rednode/.style={rbnode, fill=rbred!20, text=rbred, draw=rbred},
-    blacknode/.style={rbnode, fill=rbblack!10, text=rbblack, draw=rbblack},
-    nilnode/.style={rbnode, fill=rbgray!30, text=rbgray, draw=rbgray, minimum size=6mm}
+    blacknode/.style={rbnode, fill=rbblack!15, text=rbblack, draw=rbblack},
+    nilnode/.style={rbnode, fill=rbgray!60, text=white, draw=rbgray!90, minimum size=6mm, font=\tiny\bfseries},
+    bstnode/.style={rbnode, fill=accent!20, text=rbblack, draw=accent!80},
+    goodmark/.style={circle, fill=goodgreen, text=white, minimum size=5mm, font=\tiny\bfseries},
+    badmark/.style={circle, fill=badred, text=white, minimum size=5mm, font=\tiny\bfseries},
 }
 
-\title{Red-Black Trees}
-\subtitle{Why Even the Inventor Moved On...}
-\author{Your Name}
-\date{\today}
+\title{CSE-200 Final Presentation}
+\subtitle{Red Black Tree}
+\author{Muhasina Ashraf - 2205002\\Rifah Tasnia Islam - 2205008\\Sufian Ashraf - 2205019}
+\institute{Department of CSE\\Bangladesh University of Engineering and Technology}
+\date{February 19, 2026}
 
 \begin{document}
+
+% ══════════════════════════════════════════════════════════════
+% TITLE
+% ══════════════════════════════════════════════════════════════
+\begin{frame}
+    \titlepage
+\end{frame}
+
 
 % Part 1: Introduction to Insertion warning
 \input{part1_introduction}

@@ -1,7 +1,296 @@
-% Real-world applications
-\begin{frame}{Where Are Red-Black Trees Used?}
+% Rotation Complexity Proof Slide
+\begin{frame}{Why Rotations Work: The Magic Behind Balance}
     \begin{center}
-        \Large\textbf{Everywhere!}
+        \Large\textbf{Rotation Complexity: $O(1)$ Operations}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Left Rotation:}
+        \begin{itemize}
+            \item<2-> Restructures tree locally
+            \item<3-> Preserves binary search property
+            \item<4-> Height changes by at most 1
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Right Rotation:}
+        \begin{itemize}
+            \item<2-> Mirror of left rotation
+            \item<3-> Same time complexity
+            \item<4-> Maintains red-black properties
+        \end{itemize}
+    \end{columns}
+    
+    \pause[5]
+    
+    \begin{alertblock}{Key Insight}
+        Rotations are \textcolor{rbred}{\textbf{$O(1)$}} because they only modify a \textcolor{rbred}{\textbf{constant number of pointers}}!
+
+        No tree traversal required.
+    \end{alertblock}
+\end{frame}
+
+% Mathematical Proof Slide
+\begin{frame}{Why Red-Black Trees Work: The Math Behind It}
+    \begin{center}
+        \Large\textbf{Height Proof: Why $O(\log n)$?}
+    \end{center}
+    
+    \pause
+    
+    \begin{block}{Key Insight}
+        A red-black tree with $n$ nodes has height $\leq {\color{rbred}\mathbf{2\log_2(n+1)}}$
+    \end{block}
+    
+    \pause
+    
+    \begin{columns}[T]
+        \column{0.45\textwidth}
+        \textbf{Proof Sketch:}
+        \begin{enumerate}
+            \item<1-> Every path has \textcolor{rbred}{\textbf{same black-height}}
+            \item<2-> \textcolor{rbred}{\textbf{No red-red}}  children
+            \item<3-> $\geq$ 50\% nodes on path are \textcolor{rbred}{\textbf{black}}
+            \item<4-> Height $\leq 2 \times$ black-height
+        \end{enumerate}
+        
+        \column{0.45\textwidth}
+        \only<5->{
+            \begin{center}
+                \begin{tikzpicture}[scale=0.45]
+                    % Root node
+                    \node[circle, draw=rbblack, fill=rbblack!15, text=rbblack, minimum size=6mm, font=\tiny\bfseries] (root) at (0, 0) {11};
+                    % Level 1 nodes
+                    \node[circle, draw=rbred, fill=rbred!20, text=rbred, minimum size=6mm, font=\tiny\bfseries] (left1) at (-3, -1.8) {2};
+                    \node[circle, draw=rbblack, fill=rbblack!15, text=rbblack, minimum size=6mm, font=\tiny\bfseries] (right1) at (3, -1.8) {14};
+                    % Level 2 nodes left subtree
+                    \node[circle, draw=rbblack, fill=rbblack!15, text=rbblack, minimum size=6mm, font=\tiny\bfseries] (ll2) at (-4.5, -3.6) {1};
+                    \node[circle, draw=rbblack, fill=rbblack!15, text=rbblack, minimum size=6mm, font=\tiny\bfseries] (lr2) at (-1.5, -3.6) {7};
+                    % Level 2 nodes right subtree
+                    \node[circle, draw=rbgray!90, fill=rbgray!60, text=white, minimum size=5mm, font=\tiny\bfseries] (rl2) at (1.5, -3.6) {N};
+                    \node[circle, draw=rbred, fill=rbred!20, text=rbred, minimum size=6mm, font=\tiny\bfseries] (rr2) at (4.5, -3.6) {15};
+                    % Level 3 nodes from node 7
+                    \node[circle, draw=rbred, fill=rbred!20, text=rbred, minimum size=6mm, font=\tiny\bfseries] (lrl3) at (-2.5, -5.4) {5};
+                    \node[circle, draw=rbgray!90, fill=rbgray!60, text=white, minimum size=5mm, font=\tiny\bfseries] (lrr3) at (-0.5, -5.4) {N};
+                    % Edges
+                    \draw (root) -- (left1);
+                    \draw (root) -- (right1);
+                    \draw (left1) -- (ll2);
+                    \draw (left1) -- (lr2);
+                    \draw (right1) -- (rl2);
+                    \draw (right1) -- (rr2);
+                    \draw (lr2) -- (lrl3);
+                    \draw (lr2) -- (lrr3);
+                \end{tikzpicture}
+            \end{center}
+            \small Black height = 2, Total height = 4
+        }
+    \end{columns}
+    
+    \pause[5]
+    
+\end{frame}
+
+% Space Complexity Proof Slide  
+\begin{frame}{Why Red-Black Trees Are Space Efficient}
+    \begin{center}
+        \Large\textbf{Space Complexity: $O(n)$ Memory Usage}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}[T]
+        \column{0.5\textwidth}
+        {\textbf{Memory Requirements:}}
+        \begin{itemize}
+            \item<2-> Each node stores: \textcolor{badred}{\textbf{key + color + 2 pointers}}
+            \item<3-> Total: $O(n)$ space
+            \item<4-> No extra storage for balance info
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        {\textbf{Comparison:}}
+        \begin{itemize}
+            \item<2-> AVL trees: height field per node
+            \item<3-> B-trees: multiple keys per node
+            \item<4-> RBTs: minimal overhead
+        \end{itemize}
+    \end{columns}
+    
+    \pause[5]
+    \vspace{0.1cm}
+    \begin{alertblock}{Key Insight}
+        RBTs achieve \textcolor{rbred}{\textbf{$O(n)$ space}} with \textcolor{rbred}{\textbf{1 bit}} per node (color field).
+    \end{alertblock}
+\end{frame}
+
+% Modern Evolution Slide
+\begin{frame}{The Evolution: From Red-Black to Modern Trees}
+    \begin{center}
+        \Large\textbf{50+ Years of Tree Balancing Innovation}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}[T]
+        \column{0.55\textwidth}
+        \begin{itemize}
+            \item<2-> \textbf{1972:} Red-Black Trees (Guibas \& Sedgewick) \cite{guibas1972}
+            \item<3-> \textbf{2008:} Left-Leaning Red-Black Trees (Sedgewick) \cite{sedgewick2008}
+            \item<4-> \textbf{2013:} WAVL Trees (Bronson et al.) \cite{bronson2013}
+        \end{itemize}
+        
+        \column{0.35\textwidth}
+        \only<5->{
+            \begin{block}{What to do with these trees?}
+                ``Trees evolving faster than my code!'' - Some sad developer
+            \end{block}
+        }
+    \end{columns}
+    
+    \pause[6]
+    
+    \textcolor{rbred}{\textbf{Note:}} Even Sedgewick evolved the design—Left-Leaning RBTs reduce implementation complexity.
+\end{frame}
+
+% Advanced Applications
+\begin{frame}{Beyond the Basics: Advanced Applications}
+    \begin{center}
+        \Large\textbf{Red-Black Trees in Modern Tech}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}[T]
+        \column{0.45\textwidth}
+        \textbf{Traditional Uses:}
+        \begin{itemize}
+            \item<2-> \textcolor{rbred}{\textbf{Scheduling}}: CPU, process queues
+            \item<3-> \textcolor{rbred}{\textbf{Memory}}: Allocation, defragmentation
+            \item<4-> \textcolor{rbred}{\textbf{Routing}}: Network tables, prefixes
+            \item<5-> \textcolor{rbred}{\textbf{Graphics}}: Spatial indexing, trees
+        \end{itemize}
+        
+        \column{0.45\textwidth}
+        \pause[6]
+        \textbf{Modern Applications:}
+        \begin{itemize}
+            \item<7-> \textcolor{rbred}{\textbf{ML indexing}}, \textcolor{rbred}{\textbf{cloud storage}}, \textcolor{rbred}{\textbf{blockchain pathfinding}}
+            \item<8-> Trusted by billions of devices daily
+        \end{itemize}
+    \end{columns}
+    
+\end{frame}
+
+% Performance Comparison
+\begin{frame}{RBT vs Other Trees}
+    \begin{center}
+        \Large\textbf{Why Choose Red-Black Trees?}
+    \end{center}
+    
+    \pause
+    
+    \begin{table}
+        \centering
+        \begin{tabular}{|l|c|c|c|c|}
+            \hline
+            \textbf{Tree Type} & \textbf{Search} & \textbf{Insert} & \textbf{Delete} & \textbf{Space} \\
+            \hline
+            Red-Black & $O(\log n)$ & $O(\log n)$ & $O(\log n)$ & $O(n)$ \\
+            AVL & $O(\log n)$ & $O(\log n)$ & $O(\log n)$ & $O(n)$ \\
+            B-Tree & $O(\log n)$ & $O(\log n)$ & $O(\log n)$ & $O(n)$ \\
+            \hline
+        \end{tabular}
+    \end{table}
+    
+    \pause
+    
+    \begin{columns}
+        \column{0.45\textwidth}
+        \begin{block}{Red-Black Advantages}
+            \begin{itemize}
+                \item<2-> \textcolor{rbred}{\textbf{Fewer rotations}} than AVL (faster inserts)
+                \item<3-> \textcolor{rbred}{\textbf{Simpler code}} than B-trees
+                \item<4-> \textcolor{rbred}{\textbf{Guaranteed}} $O(\log n)$ all operations
+            \end{itemize}
+        \end{block}
+        \column{0.45\textwidth}
+        \begin{center}
+            \begin{block}{The Trade-off}
+                \textit{Balanced performance across all operations}—optimal for general-purpose use.
+            \end{block}
+        \end{center}
+    \end{columns}
+    
+\end{frame}
+
+% Industry Secrets
+\begin{frame}{Industry Secrets: What Big Tech Uses}
+    \begin{center}
+        \Large\textbf{The Real Story Behind the Scenes}
+    \end{center}
+    
+    \pause
+    
+    \begin{columns}
+        \column{0.55\textwidth}
+        \textbf{Tech Giants \& RBTs:}
+        \begin{itemize}
+            \item<2-> \textcolor{rbred}{\textbf{Google}}: MapReduce distributed sorting
+            \item<3-> \textcolor{rbred}{\textbf{Facebook}}: Feed ranking systems
+            \item<4-> \textcolor{rbred}{\textbf{Amazon}}: Catalog indexing
+            \item<5-> \textcolor{rbred}{\textbf{Netflix}}: Content routing
+            \item<6-> \textcolor{rbred}{\textbf{Linux}}: Process scheduling
+        \end{itemize}
+        
+        \column{0.35\textwidth}
+        \only<7->{
+            \begin{alertblock}{Production Strategy}
+                \textcolor{rbred}{\textbf{Hybrid approaches}}: RBTs for small-medium datasets, B-trees for disk-based storage.
+            \end{alertblock}
+        }
+    \end{columns}
+    
+    \pause[8]
+    
+\end{frame}
+
+% Future Directions
+\begin{frame}{The Future: Where Are Trees Heading?}
+    \begin{center}
+        \Large\textbf{Next Generation Data Structures}
+    \end{center}
+    
+    \pause
+
+    \begin{columns}
+        \column{0.45\textwidth}
+        \textbf{Emerging Trends:}
+        \begin{itemize}
+            \item<2-> {\textbf{Persistent Trees}}: Functional correctness guarantees
+            \item<3-> {\textbf{Lock-free RBTs}}: Concurrent access patterns
+            \item<4->{\textbf{GPU data structures}}: Massive parallelization
+            \item<5-> {\textbf{Learned indices}}: ML-augmented trees
+        \end{itemize}
+        
+        \column{0.45\textwidth}
+        \only<6->{
+            \begin{block}{Next Frontier}
+                Adaptive structures: learning access patterns to optimize tree shape dynamically.
+            \end{block}
+        }
+    \end{columns}
+    
+\end{frame}
+
+
+% Final Conclusion
+\begin{frame}{What Makes RBTs Essential}
+    \begin{center}
+        \Large\textbf{Why Red-Black Trees Matter}
     \end{center}
     
     \pause
@@ -9,89 +298,45 @@
     \begin{columns}
         \column{0.5\textwidth}
         \begin{itemize}
-            \item<2-> \faIcon{linux} \textbf{Linux Kernel}\\
-                \small Process scheduling
-            \item<3-> \faIcon{java} \textbf{Java}\\
-                \small TreeMap, TreeSet
-            \item<4-> \faIcon{database} \textbf{Databases}\\
-                \small Indexing structures
-            \item<5-> \faIcon{folder} \textbf{File Systems}\\
-                \small Directory organization
+            \item<2-> \textcolor{badred}{\textbf{$O(\log n)$ guaranteed}}
+            \item<3-> {\textbf{Practical efficiency}}—fewer rotations
+            \item<4-> {\textbf{Mission-critical systems}}—everywhere
         \end{itemize}
         
         \column{0.5\textwidth}
-        \only<6->{
-            \begin{center}
-                \begin{tikzpicture}
-                    \node[draw, thick, rounded corners, fill=rbred!10, text width=5cm, align=center, minimum height=2cm] {
-                        \Large\textbf{Every time you use these...}\\[0.3cm]
-                        \large You're benefiting from\\
-                        \textbf{Red-Black Trees!}
-                    };
-                \end{tikzpicture}
-            \end{center}
-        }
-    \end{columns}
-\end{frame}
-
-% Conclusion
-\begin{frame}{So There You Have It!}
-    \begin{center}
-        \Large\textbf{Red-Black Trees in a Nutshell}
-    \end{center}
-    
-    \pause
-    
-    \begin{columns}
-        \column{0.6\textwidth}
-        \begin{itemize}
-            \item<2-> Complex but incredibly powerful
-            \item<3-> Tricky to implement
-            \item<4-> Guaranteed $O(\log n)$ performance
-            \item<5-> Used everywhere in computing
-        \end{itemize}
-        
-        \column{0.4\textwidth}
-        \only<6->{
-            \begin{center}
-                \begin{tikzpicture}[scale=0.6]
-                    \node[blacknode] {11}
-                        child {node[rednode] {2}
-                            child {node[blacknode] {1}}
-                            child {node[blacknode] {7}}
-                        }
-                        child {node[blacknode] {14}
-                            child {node[nilnode] {}}
-                            child {node[rednode] {15}}
-                        };
-                \end{tikzpicture}
-            \end{center}
+        \only<5->{
+            \begin{block}{The Foundation}
+                35+ years of proven reliability in production systems.
+            \end{block}
         }
     \end{columns}
     
-    \pause[7]
+    \pause[6]
     
-    \vspace{0.5cm}
-    
+\end{frame}
+
+% Famous Words Slide
+\begin{frame}{Words to Live By}
     \begin{center}
-        \begin{alertblock}{Remember}
-            The next time you're struggling with RBT implementation...\\[0.3cm]
-            \large Even the \textbf{inventor} moved on to Left-Leaning Red-Black Trees! \faIcon{laugh}
-        \end{alertblock}
-    \end{center}
-    
-    \pause
-    
-    \begin{center}
-        \Large\textbf{Thanks for listening!}\\[0.3cm]
-        \large May your trees always stay balanced! \faIcon{tree}
+        \vspace{0.3cm}
+        \begin{tikzpicture}
+            \node[draw, thick, rounded corners=8pt, fill=rbred!10, text width=9cm, align=center, inner sep=0.5cm] {
+                \Large\textit{``We know exactly how to balance a tree. We just haven't been outside to see one.''}\\[0.4cm]
+                \normalsize --- Unknown
+            };
+        \end{tikzpicture}
     \end{center}
 \end{frame}
 
-% Questions slide
 \begin{frame}
     \begin{center}
-        \Huge\textbf{Any Questions?}\\[1cm]
-        \Large\faIcon{comments}
+        \Huge\textbf{Thanks for listening!}\\[0.5cm]
     \end{center}
 \end{frame}
+% % Questions slide
+% \begin{frame}
+%     \begin{center}
+%         \Huge\textbf{Any Questions?}\\[1cm]
+%         \Large\faIcon{comments}
+%     \end{center}
+% \end{frame}

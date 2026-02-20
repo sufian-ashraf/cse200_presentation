@@ -1,424 +1,622 @@
-% Title Slide
+% ══════════════════════════════════════════════════════════════
+% SLIDE 1: Store and Search Data
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{We Need to Store and Search Data}
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item<1-> \large Everything is \textbf{tree-structured}
+        \item<2-> \large \textbf{Insert} data into the structure
+        \item<3-> \large \textbf{Delete} data efficiently
+        \item<4-> \large \textbf{Search} for data quickly
+    \end{itemize}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 1B: Question
+% ══════════════════════════════════════════════════════════════
 \begin{frame}
-    \titlepage
+    \vspace{2cm}
+    \begin{center}
+        \Huge Good way to do all of this?
+    \end{center}
 \end{frame}
 
-% Introduction - We all love to sort things
-\begin{frame}{We All Love to Sort Things!}
-    \begin{columns}
+% ══════════════════════════════════════════════════════════════
+% SLIDE 1C: Answer
+% ══════════════════════════════════════════════════════════════
+\begin{frame}
+    \vspace{2.5cm}
+    \begin{center}
+        \only<1>{\Huge\textcolor{goodgreen}{\textbf{Use a BST!}}}
+    \end{center}
+\end{frame}
+
+
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 2: BST Rule
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{The BST Rule}
+    \begin{columns}[c]
         \column{0.5\textwidth}
-        \begin{itemize}
-            \item<1-> Organizing bookshelves
-            \item<2-> Arranging files on computers  
-            \item<3-> Putting groceries in order
-            \item<4-> \textbf{What's a really good way?} \faIcon{tree}
-            \item<5-> \textbf{TREES!} Specifically Binary Trees
-        \end{itemize}
-        
-        \column{0.5\textwidth}
-        \only<4->{
+            \vspace{0.3cm}
             \begin{center}
-                \begin{tikzpicture}[scale=0.8]
-                    \node[blacknode] {15}
-                        child {node[blacknode] {10}
-                            child {node[blacknode] {5}}
-                            child {node[blacknode] {12}}
-                        }
-                        child {node[blacknode] {20}
-                            child {node[blacknode] {17}}
-                            child {node[blacknode] {25}}
-                        };
-                \end{tikzpicture}
+                \large How does BST decide where to put a node?
             \end{center}
-        }
-    \end{columns}
-    
-    \vspace{0.5cm}
-    \only<5->{\begin{center}\Large\textbf{Binary Trees are Awesome!}\end{center}}
-\end{frame}
-
-% Why binary trees are good
-\begin{frame}{Why Binary Trees Are Good}
-    \begin{columns}
-        \column{0.6\textwidth}
-        \begin{block}{Beautiful Structure}
+            \vspace{0.5cm}
             \begin{itemize}
-                \item Everything has its place
-                \item Search: $O(\log n)$ 
-                \item Insert: $O(\log n)$
-                \item Delete: $O(\log n)$
+                \item<2-> \textbf{Smaller than me?} Go \textcolor{goodgreen}{\textbf{Left}}
+                \item<4-> \textbf{Larger than me?} Go \textcolor{rbred}{\textbf{Right}}
             \end{itemize}
-        \end{block}
-        
-        \pause
-        
-        % is log(n) the best? no we WANT constant time. but sadly this is a presentation
-        % on red black trees not hash tables 
-        \begin{alertblock}{The Magic}
-            Logarithmic time = \textbf{Sports car performance!}
-        \end{alertblock}
-        
-        \column{0.4\textwidth}
-        \begin{tikzpicture}[scale=0.7]
-            \node[blacknode] {50}
-                child {node[blacknode] {30}
-                    child {node[blacknode] {20}}
-                    child {node[blacknode] {40}}
-                }
-                child {node[blacknode] {70}
-                    child {node[blacknode] {60}}
-                    child {node[blacknode] {80}}
-                };
-        \end{tikzpicture}
-    \end{columns}
-\end{frame}
 
-% The problem - when things go wrong
-\begin{frame}{Sadly, Sometimes It Goes Wrong...}
-    \begin{center}
-        What happens when we insert: 1, 2, 3, 4, 5?
-    \end{center}
-    
-    \pause
-    
-    \begin{columns}
-        \column{0.33\textwidth}
-        \begin{center}
-            \textbf{After 1, 2, 3}\\[0.3cm]
-            \begin{tikzpicture}[scale=0.6]
-                \node[blacknode] {1}
-                    child[missing] {}
-                    child {node[blacknode] {2}
-                        child[missing] {}
-                        child {node[blacknode] {3}}
-                    };
-            \end{tikzpicture}
-        \end{center}
-        
-        \column{0.33\textwidth}
-        \pause
-        \begin{center}
-            \textbf{After 4}\\[0.3cm]
-            \begin{tikzpicture}[scale=0.6]
-                \node[blacknode] {1}
-                    child[missing] {}
-                    child {node[blacknode] {2}
-                        child[missing] {}
-                        child {node[blacknode] {3}
-                            child[missing] {}
-                            child {node[blacknode] {4}}
-                        }
-                    };
-            \end{tikzpicture}
-        \end{center}
-        
-        \column{0.33\textwidth}
-        \pause
-        \begin{center}
-            \textbf{After 5}\\[0.3cm]
-            \begin{tikzpicture}[scale=0.5]
-                \node[blacknode] {1}
-                    child[missing] {}
-                    child {node[blacknode] {2}
-                        child[missing] {}
-                        child {node[blacknode] {3}
-                            child[missing] {}
-                            child {node[blacknode] {4}
-                                child[missing] {}
-                                child {node[blacknode] {5}}
-                            }
-                        }
-                    };
-            \end{tikzpicture}
-        \end{center}
-    \end{columns}
-    
-    \vspace{0.5cm}
-    \pause
-    \begin{center}
-        \Large\textbf{Our tree became a... \textcolor{rbred}{LINKED LIST!}} Damn!
-    \end{center}
-\end{frame}
-
-% Performance degradation
-\begin{frame}{From Sports Car to Bicycle}
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{block}{Before (Balanced)}
-            \begin{itemize}
-                \item Search: $O(\log n)$
-                \item Insert: $O(\log n)$
-                \item Delete: $O(\log n)$
-            \end{itemize}
-        \end{block}
-        
-        \begin{center}
-            \begin{tikzpicture}[scale=0.5]
-                \node[blacknode] {8}
-                    child {node[blacknode] {4}
-                        child {node[blacknode] {2}}
-                        child {node[blacknode] {6}}
+        \column{0.48\textwidth}
+            \only<1->{
+                \begin{center}
+                \begin{tikzpicture}[scale=1, every node/.style={transform shape}]
+                    % Start with tree with 5-6 nodes
+                    \only<1>{
+                        \node[bstnode] (root) at (0,0) {20};
+                        \node[bstnode] (l15) at (-1.5,-1.2) {15};
+                        \node[bstnode] (r30) at (1.5,-1.2) {30};
+                        \node[bstnode] (ll12) at (-2.2,-2.4) {12};
+                        \node[bstnode] (lr18) at (-0.8,-2.4) {18};
+                        \node[bstnode] (rr35) at (2.2,-2.4) {35};
+                        
+                        \draw[thick] (root) -- (l15);
+                        \draw[thick] (root) -- (r30);
+                        \draw[thick] (l15) -- (ll12);
+                        \draw[thick] (l15) -- (lr18);
+                        \draw[thick] (r30) -- (rr35);
                     }
-                    child {node[blacknode] {12}
-                        child {node[blacknode] {10}}
-                        child {node[blacknode] {14}}
-                    };
-            \end{tikzpicture}
-        \end{center}
-        
-        \column{0.5\textwidth}
-        \begin{alertblock}{After (Degenerate)}
-            \begin{itemize}
-                \item Search: $O(n)$
-                \item Insert: $O(n)$
-                \item Delete: $O(n)$
-            \end{itemize}
-        \end{alertblock}
-        
-        \begin{center}
-            \begin{tikzpicture}[scale=0.4]
-                \node[blacknode] {1}
-                    child[missing] {}
-                    child {node[blacknode] {2}
-                        child[missing] {}
-                        child {node[blacknode] {3}
-                            child[missing] {}
-                            child {node[blacknode] {4}
-                                child[missing] {}
-                                child {node[blacknode] {5}}
-                            }
-                        }
-                    };
-            \end{tikzpicture}
-        \end{center}
-    \end{columns}
-    
-    \vspace{0.5cm}
-    \pause
-    \begin{center}
-        \Large\textcolor{rbred}{\faIcon{exclamation-triangle} Not Great!}
-    \end{center}
-\end{frame}
-
-% The solution - balanced trees
-\begin{frame}{We Need Almost Balanced Trees}
-    \begin{center}
-        \Large We want to keep $O(\log n)$ operations \textbf{even in the worst case!}
-    \end{center}
-    
-    \pause
-    
-    \vspace{0.5cm}
-    
-    \begin{block}{Popular Solutions}
-        \begin{itemize}
-            \item<2-> AVL Trees
-            \item<3-> \textbf{Red-Black Trees} \faIcon{star}
-            \item<4-> B-Trees
-            \item<5-> Splay Trees
-        \end{itemize}
-    \end{block}
-    
-    \pause[6]
-    
-    \begin{center}
-        \Large\textbf{Red-Black Trees are used EVERYWHERE!}
-    \end{center}
-\end{frame}
-
-% Red-Black Tree introduction with joke
-\begin{frame}{Enter: Red-Black Trees}
-    \begin{columns}
-        \column{0.6\textwidth}
-        \begin{itemize}
-            \item<1-> Around since the 1970s
-            \item<2-> Used in Linux kernels
-            \item<3-> Java's TreeMap and TreeSet
-            \item<4-> Databases and file systems
-        \end{itemize}
-        
-        \pause[5]
-        
-        \begin{alertblock}{Fun Fact}
-            \small Even the original inventor \textbf{didn't mention} Red-Black Trees in his main DSA book!\\
-            He introduced \textit{Left-Leaning Red-Black Trees} instead. \faIcon{laugh}
-        \end{alertblock}
-        
-        \column{0.4\textwidth}
-        \only<6->{
-            \begin{center}
-                \begin{tikzpicture}[scale=0.7]
-                    \node[blacknode] {11}
-                        child {node[rednode] {2}
-                            child {node[blacknode] {1}}
-                            child {node[blacknode] {7}}
-                        }
-                        child {node[blacknode] {14}
-                            child {node[blacknode] {}}
-                            child {node[rednode] {15}}
-                        };
+                    
+                    % Add 10 to left - show floating then directly attached
+                    \only<2>{
+                        \node[bstnode] (root) at (0,0) {20};
+                        \node[bstnode, fill=goodgreen!40, draw=goodgreen, thick] (new10) at (-1.5,1.5) {10};
+                        \node[below=0.05cm of new10, font=\scriptsize, text=goodgreen] {new};
+                    }
+                    \only<3>{
+                        \node[bstnode] (root) at (0,0) {20};
+                        \node[bstnode, fill=goodgreen!30, draw=goodgreen] (l10) at (-1.2,-1.2) {10};
+                        \draw[thick, goodgreen] (root) -- (l10);
+                    }
+                    
+                    % Add 25 to right - show floating then directly attached
+                    \only<4>{
+                        \node[bstnode] (root) at (0,0) {20};
+                        \node[bstnode] (l10) at (-1.2,-1.2) {10};
+                        \draw[thick] (root) -- (l10);
+                        \node[bstnode, fill=rbred!40, draw=rbred, thick] (new25) at (1.5,1.5) {25};
+                        \node[below=0.05cm of new25, font=\scriptsize, text=rbred] {new};
+                    }
+                    \only<5>{
+                        \node[bstnode] (root) at (0,0) {20};
+                        \node[bstnode] (l10) at (-1.2,-1.2) {10};
+                        \node[bstnode, fill=rbred!30, draw=rbred] (r25) at (1.2,-1.2) {25};
+                        \draw[thick] (root) -- (l10);
+                        \draw[thick, rbred] (root) -- (r25);
+                    }
+                    
+                    % Final full tree
+                    \only<6->{
+                        \node[bstnode] (root) at (0,-0.5) {20};
+                        \node[bstnode] (l10) at (-1.5,-1.7) {10};
+                        \node[bstnode] (r30) at (1.5,-1.7) {30};
+                        \node[bstnode] (ll5) at (-2.2,-2.9) {5};
+                        \node[bstnode] (lr15) at (-0.8,-2.9) {15};
+                        \node[bstnode] (rl25) at (0.8,-2.9) {25};
+                        \node[bstnode] (rr35) at (2.2,-2.9) {35};
+                        
+                        \draw[thick] (root) -- (l10);
+                        \draw[thick] (root) -- (r30);
+                        \draw[thick] (l10) -- (ll5);
+                        \draw[thick] (l10) -- (lr15);
+                        \draw[thick] (r30) -- (rl25);
+                        \draw[thick] (r30) -- (rr35);
+                    }
                 \end{tikzpicture}
-            \end{center}
-        }
+                \end{center}
+            }
     \end{columns}
-    
-    \vspace{0.3cm}
-    \pause[7]
-    \begin{center}
-        \Large\textbf{Let's get started, shall we?}
-    \end{center}
-\end{frame}
-
-% Fundamental properties introduction
-\begin{frame}{Everything Has Unique Properties}
-    \begin{center}
-        \Large Fundamental properties are better than mathematical definitions!
-    \end{center}
-    
-    \pause
-    
-    \vspace{0.5cm}
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{block}{Why Properties?}
-            \begin{itemize}
-                \item<2-> Easier to understand
-                \item<3-> Audience feels good
-                \item<4-> Been around for ages!
-            \end{itemize}
-        \end{block}
-        
-        \column{0.5\textwidth}
-        \only<5->{
-            \begin{center}
-                \textbf{Red-Black Trees have 5 properties}\\[0.5cm]
-                Let's see them \textcolor{rbred}{one by one}...
-            \end{center}
-        }
-    \end{columns}
-\end{frame}
-
-% The Five Properties
-\begin{frame}{The Five Properties}
-    \begin{enumerate}
-        \item<1-> Every node is either \textcolor{rbred}{Red} or \textcolor{rbblack}{Black}
-        \item<2-> The \textbf{root} is always \textcolor{rbblack}{Black}
-        \item<3-> All \textbf{leaves} (NIL) are \textcolor{rbblack}{Black}
-        \item<4-> No two \textcolor{rbred}{Red} nodes can be adjacent
-        \item<5-> Equal \textcolor{rbblack}{black height} on all paths
-    \end{enumerate}
     
     \only<6->{
+        \vspace{0.3cm}
         \begin{center}
-            \begin{tikzpicture}[scale=0.7]
-                \node[blacknode] {11}
-                    child {node[rednode] {2}
-                        child {node[blacknode] {1}}
-                        child {node[blacknode] {7}}
-                    }
-                    child {node[blacknode] {14}
-                        child {node[blacknode] {}}
-                        child {node[rednode] {15}}
-                    };
-            \end{tikzpicture}
+            \Large\textbf{Good technique!}
         \end{center}
     }
 \end{frame}
 
-% Black height explanation
-\begin{frame}{Black Height: The Core Property}
-    \begin{definition}
-        The \textbf{black-height} of a node is the number of black nodes on any path from that node to a leaf (not counting the node itself).
-    \end{definition}
-    
-    \pause
-    
+% ══════════════════════════════════════════════════════════════
+% SLIDE 3 (Page 6): Insert Roll Numbers - Title
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insert the roll numbers in a class sequentially}
     \begin{center}
-        \begin{tikzpicture}[scale=0.8]
-            \node[blacknode] (root) {11}
-                child {node[rednode] {2}
-                    child {node[blacknode] {1}}
-                    child {node[blacknode] {7}}
-                }
-                child {node[blacknode] {14}
-                    child {node[blacknode] {}}
-                    child {node[rednode] {15}}
-                };
-        \end{tikzpicture}
+        \large 1, 2, 3, 4 \ldots 10
     \end{center}
-    
-    \pause
-    
-    \begin{alertblock}{Why This Matters}
-        This property helps us understand the \textbf{balance} of the tree!
-    \end{alertblock}
+    \vspace{0.3cm}
 \end{frame}
 
-% Height bound (light touch)
-\begin{frame}{The Amazing Height Bound}
+% ══════════════════════════════════════════════════════════════
+% SLIDE 4 (Page 7): Goes to Right
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insert the roll numbers in a class sequentially}
     \begin{center}
-        \Large Because of black height, we can prove:
+        \large 1, 2, 3, 4 \ldots 10
     \end{center}
-    
-    \pause
-    
-    \begin{theorem}
-        A Red-Black Tree with $n$ nodes has height $h \leq 2 \log_2(n+1)$
-    \end{theorem}
-    
-    \pause
-    
-    \begin{columns}
-        \column{0.5\textwidth}
-        \begin{block}{What This Means}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.45\textwidth}
             \begin{itemize}
-                \item Even worst case is logarithmic!
-                \item Never more than twice as tall as perfect tree
-                \item $O(\log n)$ performance guaranteed
+                \item Each goes to the \textcolor{rbred}{\textbf{right}} of the last
             \end{itemize}
-        \end{block}
-        
-        \column{0.5\textwidth}
-        \pause
-        \begin{center}
-            \textbf{Perfect Tree:} height = $\log_2(n+1)$\\[0.3cm]
-            \textbf{RBT Tree:} height $\leq 2 \times \log_2(n+1)$\\[0.3cm]
-            \Large\textcolor{green}{\faIcon{check} Still Awesome!}
-        \end{center}
+
+        \column{0.52\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.7,
+                every node/.style={},
+            ]
+                \node[bstnode] (n1) at (0,0) {1};
+                \node[bstnode] (n2) at (1,-1.3) {2}; \draw[thick,->] (n1) -- (n2);
+                \node[bstnode] (n3) at (2,-2.6) {3}; \draw[thick,->] (n2) -- (n3);
+            \end{tikzpicture}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 5 (Page 8): Keeps Growing
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insert the roll numbers in a class sequentially}
+    \begin{center}
+        \large 1, 2, 3, 4 \ldots 10
+    \end{center}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.45\textwidth}
+            \begin{itemize}
+                \item Each goes to the \textcolor{rbred}{\textbf{right}} of the last
+                \item The tree just keeps \textcolor{accent}{\textbf{growing}} right\ldots
+            \end{itemize}
+
+        \column{0.52\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.75,
+                every node/.style={},
+            ]
+                \node[bstnode] (n1) at (0,0) {1};
+                \node[bstnode] (n2) at (1,-1.3) {2}; \draw[thick,->] (n1) -- (n2);
+                \node[bstnode] (n3) at (2,-2.6) {3}; \draw[thick,->] (n2) -- (n3);
+                \node[bstnode] (n4) at (3,-3.9) {4}; \draw[thick,->] (n3) -- (n4);
+                \node[bstnode] (n5) at (4,-5.2) {5}; \draw[thick,->] (n4) -- (n5);
+                \node[below right=0.5cm and 0.3cm of n5, font=\normalsize, text=rbred] {\textbf{\ldots and on}};
+            \end{tikzpicture}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 6 (Page 9): Still Works
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insert the roll numbers in a class sequentially}
+    \begin{center}
+        \large 1, 2, 3, 4 \ldots 10
+    \end{center}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.45\textwidth}
+            \begin{itemize}
+                \item Each goes to the \textcolor{rbred}{\textbf{right}} of the last
+                \item The tree just keeps \textcolor{accent}{\textbf{growing}} right\ldots
+            \end{itemize}
+
+        \column{0.52\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.75,
+                every node/.style={},
+            ]
+                \node[bstnode] (n1) at (0,0) {1};
+                \node[bstnode] (n2) at (1,-1.3) {2}; \draw[thick,->] (n1) -- (n2);
+                \node[bstnode] (n3) at (2,-2.6) {3}; \draw[thick,->] (n2) -- (n3);
+                \node[bstnode] (n4) at (3,-3.9) {4}; \draw[thick,->] (n3) -- (n4);
+                \node[bstnode] (n5) at (4,-5.2) {5}; \draw[thick,->] (n4) -- (n5);
+                \node[below right=0.5cm and 0.3cm of n5, font=\normalsize, text=rbred] {\textbf{\ldots and on}};
+            \end{tikzpicture}
+            \end{center}
     \end{columns}
     
-    \pause
+    \vspace{-0.7cm}
     \begin{center}
-        \small\textit{*(I skipped the detailed proof - nobody wants to sit through that!)*}
+        \Large\textbf{Still works!}
     \end{center}
 \end{frame}
 
-% Transition to operations
-\begin{frame}{Wait, We're Not Done Yet!}
+% ══════════════════════════════════════════════════════════════
+% SLIDE 7 (Pages 10-14): Problem Points
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{But, What's the Problem?}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.45\textwidth}
+            \begin{itemize}
+                \item<1-> \textcolor{badred}{\textbf{Height becomes $n$}}
+                \item<2-> Insertion takes $O(n)$
+                \item<3-> Deletion takes $O(n)$
+                \item<4-> Search takes $O(n)$
+                \item<5-> A linked list in disguise
+            \end{itemize}
+
+        \column{0.52\textwidth}
+            \begin{center}
+            \begin{tikzpicture}[scale=0.75,
+                every node/.style={},
+            ]
+                \node[bstnode] (n1) at (0,0) {1};
+                \node[bstnode] (n2) at (1,-1.3) {2}; \draw[thick,->] (n1) -- (n2);
+                \node[bstnode] (n3) at (2,-2.6) {3}; \draw[thick,->] (n2) -- (n3);
+                \node[bstnode] (n4) at (3,-3.9) {4}; \draw[thick,->] (n3) -- (n4);
+                \node[bstnode] (n5) at (4,-5.2) {5}; \draw[thick,->] (n4) -- (n5);
+                \node[below right=0.5cm and 0.3cm of n5, font=\normalsize, text=rbred] {\textbf{\ldots and on}};
+            \end{tikzpicture}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 12 (Page 15): Time Complexity
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{But, What's the Problem?}
+    \vspace{0.6cm}
+    \begin{itemize}
+        \item Insertion takes $O(n)$
+        \item Deletion takes $O(n)$
+        \item Search takes $O(n)$
+        \item A linked list in disguise
+    \end{itemize}
+    \vspace{0.6cm}
     \begin{center}
-        \Large We haven't talked about \textbf{insertion} or \textbf{deletion} yet!
+        \Large\textbf{Time complexity becomes $O(n)$}
     \end{center}
-    
-    \pause
-    
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 5 (Page 12): Solution - Definition
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{The Solution?}
     \vspace{1cm}
-    
     \begin{center}
-        \Huge\textcolor{rbred}{\faIcon{exclamation-triangle}}\\[0.5cm]
-        \Large\textbf{Warning: Shit's about to get real}\\[0.3cm]
-        \large\textit{(Also tough)}
+        \Large Use a BST that \textbf{promises} to keep its height \textcolor{goodgreen}{\textbf{logarithmic}}\\[0.3cm]
+        \large no matter how and what element you insert.
     \end{center}
-    
-    \pause
-    
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 6 (Page 13): Self-Balancing Trees Examples
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{The Solution?}
     \vspace{0.5cm}
-    
+    \large Examples of Self-Balancing Trees:
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item<1-> AVL Tree
+        \item<2-> \textbf{\textcolor{rbred}{Red-Black Tree}}
+        \item<3-> Splay Tree
+        \item<4-> B-Tree
+    \end{itemize}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 7 (Page 14): Let's Look at RBT
+% ══════════════════════════════════════════════════════════════
+\begin{frame}
+    \vspace{0.5cm}
     \begin{center}
-        \Large\textbf{How do we insert something?}\\[0.3cm]
-        \pause
-        \large\textit{*(I know everybody knows...)*} \faIcon{smile}
+        \LARGE Let's look at \textcolor{rbred}{Red}-\textbf{Black} Trees
+        
+        \vspace{0.5cm}
+        \includegraphics[height=5cm]{images/magnifying_glass.png}
     \end{center}
-    
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 8 (Page 15): What is Red-Black Tree
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{What is Red-Black Tree}
+    \vspace{1.5cm}
+    \begin{center}
+        \Large A Red-Black Tree rebalances itself by coloring nodes \textcolor{rbred}{\textbf{red}} and \textbf{black}, ensuring no two \textcolor{rbred}{\textbf{red}} nodes are {\textbf{adjacent}} and all {\textbf{paths}} have the same \textbf{black-height}, which keeps its height \textcolor{goodgreen}{\textbf{logarithmic}}.
+    \end{center}
+    \only<2->{
+        \vspace{1cm}
+        \begin{center}
+            \Large\textcolor{blue!80!black}{\textbf{Height becomes log(n) here!}}
+        \end{center}
+    }
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE (Page 16): Five Points to Remember - Title
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \vspace{1.5cm}
+    \begin{center}
+        \Large\textbf{Five points to remember}
+    \end{center}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE (Page 17): Property 1 — Red or Black with Hence line
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \vspace{1cm}
+    \begin{itemize}
+        \item \textbf{Property 1:} Every node is either \textcolor{rbred}{red} or black
+    \end{itemize}
+    \only<2->{
+        \vspace{1cm}
+        \begin{center}
+            \textbf{Hence, the name \textcolor{rbred}{Red} Black Tree}
+        \end{center}
+    }
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 9 (Page 18): Property 2 — Root is Black (with right/wrong)
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \begin{itemize}
+        \item \textbf{Property 2:} Root will always be a black node
+    \end{itemize}
     \vspace{0.5cm}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<2->{
+                \begin{tikzpicture}[scale=1]
+                    \node[blacknode] (root) at (0,-0.5) {10};
+                    \node[rednode] (l5) at (-1.5,-1.7) {5};
+                    \node[rednode] (r15) at (1.5,-1.7) {15};
+                    \node[blacknode] (ll2) at (-2.2,-2.9) {2};
+                    \node[blacknode] (lr7) at (-0.8,-2.9) {7};
+                    \node[blacknode] (rl12) at (0.8,-2.9) {12};
+                    \node[blacknode] (rr20) at (2.2,-2.9) {20};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (ll2);
+                    \draw[thick] (l5) -- (lr7);
+                    \draw[thick] (r15) -- (rl12);
+                    \draw[thick] (r15) -- (rr20);
+                \end{tikzpicture}
+            }
+            
+            \only<4->{\vspace{0.3cm}\textcolor{goodgreen}{\textbf{Correct}}}
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<3->{
+                \begin{tikzpicture}[scale=1]
+                    \node[rednode] (root) at (0,-0.5) {10};
+                    \node[blacknode] (l5) at (-1.5,-1.7) {5};
+                    \node[blacknode] (r15) at (1.5,-1.7) {15};
+                    \node[rednode] (ll2) at (-2.2,-2.9) {2};
+                    \node[rednode] (lr7) at (-0.8,-2.9) {7};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (ll2);
+                    \draw[thick] (l5) -- (lr7);
+                \end{tikzpicture}
+            }
+            
+            \only<5->{\vspace{0.3cm}\textcolor{badred}{\textbf{Incorrect}}}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 10 (Page 19): Property 3 — Leaves are Black / NIL
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \begin{itemize}
+        \item \textbf{Property 3:} Leaves will either be black or NIL
+    \end{itemize}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<2->{
+                \begin{tikzpicture}[scale=1]
+                    \node[blacknode] (root) at (0,-0.5) {10};
+                    \node[rednode] (l5) at (-1.5,-1.7) {5};
+                    \node[rednode] (r15) at (1.5,-1.7) {15};
+                    \node[blacknode] (ll2) at (-2.2,-2.9) {2};
+                    \node[blacknode] (lr7) at (-0.8,-2.9) {7};
+                    \node[blacknode] (rl12) at (0.8,-2.9) {12};
+                    \node[blacknode] (rr20) at (2.2,-2.9) {20};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (ll2);
+                    \draw[thick] (l5) -- (lr7);
+                    \draw[thick] (r15) -- (rl12);
+                    \draw[thick] (r15) -- (rr20);
+                \end{tikzpicture}
+                
+                \only<4->{\vspace{0.2cm}\small\textbf{Black Leaves}}
+            }
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<3->{
+                \begin{tikzpicture}[scale=1]
+                    \node[blacknode] (root) at (0,-0.5) {10};
+                    \node[rednode] (l5) at (-1.5,-1.7) {5};
+                    \node[rednode] (r15) at (1.5,-1.7) {15};
+                    % NIL nodes as rectangles
+                    \node[rectangle, fill=black, draw=black, minimum width=6mm, minimum height=4mm] (n1) at (-2.2,-2.9) {};
+                    \node[rectangle, fill=black, draw=black, minimum width=6mm, minimum height=4mm] (n2) at (-0.8,-2.9) {};
+                    \node[rectangle, fill=black, draw=black, minimum width=6mm, minimum height=4mm] (n3) at (0.8,-2.9) {};
+                    \node[rectangle, fill=black, draw=black, minimum width=6mm, minimum height=4mm] (n4) at (2.2,-2.9) {};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (n1);
+                    \draw[thick] (l5) -- (n2);
+                    \draw[thick] (r15) -- (n3);
+                    \draw[thick] (r15) -- (n4);
+                    
+                    % NIL labels with arrows
+                    \node[font=\tiny\bfseries] (lbl1) at (-2.8,-3.6) {NIL};
+                    \node[font=\tiny\bfseries] (lbl2) at (-0.8,-3.6) {NIL};
+                    \node[font=\tiny\bfseries] (lbl3) at (0.8,-3.6) {NIL};
+                    \node[font=\tiny\bfseries] (lbl4) at (2.8,-3.6) {NIL};
+                    \draw[->, thick, black] (lbl1) -- (n1);
+                    \draw[->, thick, black] (lbl2) -- (n2);
+                    \draw[->, thick, black] (lbl3) -- (n3);
+                    \draw[->, thick, black] (lbl4) -- (n4);
+                \end{tikzpicture}
+                
+                \only<5->{\vspace{0.2cm}\small\textbf{NIL nodes (counted as Black)}}
+            }
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 11 (Page 20): Property 4 — No Two Consecutive Red
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \begin{itemize}
+        \item \textbf{Property 4:} There will be no two consecutive red nodes
+    \end{itemize}
+    \vspace{0.3cm}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<2->{
+                \begin{tikzpicture}[scale=1]
+                    \node[blacknode] (root) at (0,-0.5) {10};
+                    \node[rednode] (l5) at (-1.5,-1.7) {5};
+                    \node[rednode] (r15) at (1.5,-1.7) {15};
+                    \node[blacknode] (ll2) at (-2.2,-2.9) {2};
+                    \node[blacknode] (lr7) at (-0.8,-2.9) {7};
+                    \node[blacknode] (rl12) at (0.8,-2.9) {12};
+                    \node[blacknode] (rr20) at (2.2,-2.9) {20};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (ll2);
+                    \draw[thick] (l5) -- (lr7);
+                    \draw[thick] (r15) -- (rl12);
+                    \draw[thick] (r15) -- (rr20);
+                \end{tikzpicture}
+            }
+            
+            \only<4->{\vspace{0.3cm}\textcolor{goodgreen}{\textbf{Correct}}}
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+            \only<3->{
+                \begin{tikzpicture}[scale=1]
+                    \node[blacknode] (root) at (0,-0.5) {10};
+                    \node[rednode] (l5) at (-1.5,-1.7) {5};
+                    \node[blacknode] (r15) at (1.5,-1.7) {15};
+                    \node[rednode] (ll2) at (-2.2,-2.9) {2};
+                    \node[rednode] (lr7) at (-0.8,-2.9) {7};
+                    
+                    \draw[thick] (root) -- (l5);
+                    \draw[thick] (root) -- (r15);
+                    \draw[thick] (l5) -- (ll2);
+                    \draw[thick] (l5) -- (lr7);
+                \end{tikzpicture}
+            }
+            
+            \only<5->{\vspace{0.3cm}\textcolor{badred}{\textbf{Incorrect}}}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE 12 (Page 21): Property 5 — Equal Black Height
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{How does RBT do it:Properties}
+    \begin{itemize}
+        \item \textbf{Property 5:} From a given node, the number of black nodes in any given path will always be same for that node
+    \end{itemize}
+    \vspace{0.2cm}
+    \only<2->{
+        \begin{center}
+        \begin{tikzpicture}[scale=0.9]
+            % Big RBT tree - wider spacing
+            \node[blacknode] (root) at (0,0) {20};
+            \node[rednode] (l10) at (-3,-1.3) {10};
+            \node[rednode] (r30) at (3,-1.3) {30};
+            \node[blacknode] (ll5) at (-4.5,-2.6) {5};
+            \node[blacknode] (lr15) at (-1.5,-2.6) {15};
+            \node[blacknode] (rl25) at (1.5,-2.6) {25};
+            \node[blacknode] (rr35) at (4.5,-2.6) {35};
+            
+            \draw[thick] (root) -- (l10);
+            \draw[thick] (root) -- (r30);
+            \draw[thick] (l10) -- (ll5);
+            \draw[thick] (l10) -- (lr15);
+            \draw[thick] (r30) -- (rl25);
+            \draw[thick] (r30) -- (rr35);
+            
+            % Path 1: root -> 10 -> 5
+            \only<3->{
+                \draw[line width=2.5pt, orange!80!black] (root) -- (l10) -- (ll5);
+                \node[below=0.15cm of ll5, font=\scriptsize, text=orange!80!black] {\textbf{bc=2}};
+            }
+            
+            % Path 2: root -> 10 -> 15
+            \only<4->{
+                \draw[line width=2.5pt, green!60!black] (root) -- (l10) -- (lr15);
+                \node[below=0.15cm of lr15, font=\scriptsize, text=green!60!black] {\textbf{bc=2}};
+            }
+            
+            % Path 3: root -> 30 -> 25
+            \only<5->{
+                \draw[line width=2.5pt, red!70!black] (root) -- (r30) -- (rl25);
+                \node[below=0.15cm of rl25, font=\scriptsize, text=red!70!black] {\textbf{bc=2}};
+            }
+            
+            % Path 4: root -> 30 -> 35
+            \only<6->{
+                \draw[line width=2.5pt, blue!70!black] (root) -- (r30) -- (rr35);
+                \node[below=0.15cm of rr35, font=\scriptsize, text=blue!70!black] {\textbf{bc=2}};
+            }
+        \end{tikzpicture}
+        \end{center}
+    }
+    \only<7->{
+        \begin{center}
+            \textbf{All paths from root have same black count = 2}
+        \end{center}
+    }
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE (Page 22): RBT Operations Intro
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{RBT Operations}
+    \vspace{1cm}
+    Now, How do these points ensure the "rebalancing" feature of Red Black Tree?
+    
+    \only<2->{
+        \vspace{2cm}
+        \begin{center}
+            \Large\textbf{Let's see some operations....}
+        \end{center}
+    }
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE: Insertion Title
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insertion}
 \end{frame}
