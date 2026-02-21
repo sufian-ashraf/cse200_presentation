@@ -1,66 +1,66 @@
-\begin{frame}{Insertion Violation Cases}
-    \begin{center}
-        \large Four main violation cases in Red-Black Tree insertion:
-    \end{center}
-    \vspace{0.3cm}
-    \begin{columns}[t]
-        % Case 1: Root is Red
-        \column{0.24\textwidth}
-            \begin{center}
-            \textbf{Case 1: Root is Red}
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=1.1]
-                \node[rednode, minimum size=12mm] (n10) at (0,0) {10};
-                \draw[-{Stealth[scale=1.2]}, thick, rbred] (-0.7,1.0) -- (-0.2,0.3);
-                \node at (-0.8,1.1) [font=\scriptsize\bfseries, text=rbred] {root};
-            \end{tikzpicture}
-            \end{center}
-        % Case 2: Uncle is RED
-        \column{0.24\textwidth}
-            \begin{center}
-            \textbf{Case 2: Uncle is RED}
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=1]
-                \node[blacknode] (n20) at (0,0) {20};
-                \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
-                \node[rednode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-                \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
-            \end{tikzpicture}
-            \end{center}
-        % Case 3: Uncle is BLACK (LL)
-        \column{0.24\textwidth}
-            \begin{center}
-            \textbf{Case 3: Uncle is BLACK (LL)}
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=1]
-                \node[blacknode] (n20) at (0,0) {20};
-                \node[rednode] (n15) at (-1,-1.3) {15}; \draw[thick] (n20) -- (n15);
-                \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-                \node[rednode] (n10) at (-1.8,-2.6) {10}; \draw[thick] (n15) -- (n10);
-            \end{tikzpicture}
-            \end{center}
-        % Case 4: Uncle is BLACK (LR)
-        \column{0.24\textwidth}
-            \begin{center}
-            \textbf{Case 4: Uncle is BLACK (LR)}
-            \vspace{0.2cm}
-            \begin{tikzpicture}[scale=1]
-                \node[blacknode] (n20) at (0,0) {20};
-                \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
-                \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-                \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
-            \end{tikzpicture}
-            \end{center}
-    \end{columns}
-    \vspace{0.7cm}
-    \begin{center}
-        \textbf{\Large How to solve this?}
-    \end{center}
-    \vspace{0.2cm}
-    \begin{center}
-        \large \textit{See next...}
-    \end{center}
-\end{frame}
+% \begin{frame}{Insertion Violation Cases}
+%     \begin{center}
+%         \large Four main violation cases in Red-Black Tree insertion:
+%     \end{center}
+%     \vspace{0.3cm}
+%     \begin{columns}[t]
+%         % Case 1: Root is Red
+%         \column{0.24\textwidth}
+%             \begin{center}
+%             \textbf{Case 1: Root is Red}
+%             \vspace{0.2cm}
+%             \begin{tikzpicture}[scale=1.1]
+%                 \node[rednode, minimum size=12mm] (n10) at (0,0) {10};
+%                 \draw[-{Stealth[scale=1.2]}, thick, rbred] (-0.7,1.0) -- (-0.2,0.3);
+%                 \node at (-0.8,1.1) [font=\scriptsize\bfseries, text=rbred] {root};
+%             \end{tikzpicture}
+%             \end{center}
+%         % Case 2: Uncle is RED
+%         \column{0.24\textwidth}
+%             \begin{center}
+%             \textbf{Case 2: Uncle is RED}
+%             \vspace{0.2cm}
+%             \begin{tikzpicture}[scale=1]
+%                 \node[blacknode] (n20) at (0,0) {20};
+%                 \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
+%                 \node[rednode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
+%                 \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
+%             \end{tikzpicture}
+%             \end{center}
+%         % Case 3: Uncle is BLACK (LL)
+%         \column{0.24\textwidth}
+%             \begin{center}
+%             \textbf{Case 3: Uncle is BLACK (LL)}
+%             \vspace{0.2cm}
+%             \begin{tikzpicture}[scale=1]
+%                 \node[blacknode] (n20) at (0,0) {20};
+%                 \node[rednode] (n15) at (-1,-1.3) {15}; \draw[thick] (n20) -- (n15);
+%                 \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
+%                 \node[rednode] (n10) at (-1.8,-2.6) {10}; \draw[thick] (n15) -- (n10);
+%             \end{tikzpicture}
+%             \end{center}
+%         % Case 4: Uncle is BLACK (LR)
+%         \column{0.24\textwidth}
+%             \begin{center}
+%             \textbf{Case 4: Uncle is BLACK (LR)}
+%             \vspace{0.2cm}
+%             \begin{tikzpicture}[scale=1]
+%                 \node[blacknode] (n20) at (0,0) {20};
+%                 \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
+%                 \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
+%                 \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
+%             \end{tikzpicture}
+%             \end{center}
+%     \end{columns}
+%     \vspace{0.7cm}
+%     \begin{center}
+%         \textbf{\Large How to solve this?}
+%     \end{center}
+%     \vspace{0.2cm}
+%     \begin{center}
+%         \large \textit{See next...}
+%     \end{center}
+% \end{frame}
 
 % ══════════════════════════════════════════════════════════════
 % SLIDE 1: Store and Search Data
