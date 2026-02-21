@@ -265,11 +265,6 @@
             \draw[rbred, very thick, dashed] (n1) circle (0.55cm);
         \end{tikzpicture}
     \end{center}
-
-    \vspace{0.4cm}
-    \begin{center}
-        \large\textcolor{rbred}{\textbf{Node 1 is BLACK — removing it will break black-height balance!}}
-    \end{center}
 \end{frame}
 
 % ── Hard case: After Delete ─────────────────────────────────
@@ -648,35 +643,16 @@
         \vspace{0.5cm}
 
         \uncover<2->{
-            \large If this felt like \textcolor{accent}{\textbf{a lot}} at once -\\
+            If this felt like \textcolor{accent}{\textbf{a lot}} at once -\\
             that's because \textcolor{badred}{\textbf{it is !}}\\[0.4cm]
-            \normalsize Even seasoned programmers keep\\
-            a reference sheet open for this one.
+        }
+
+        \vspace{0.6cm}
+
+        \uncover<3->{
+            \LARGE\textbf{We know deletion is complex - and that's \textcolor{accent}{\textit{okay!}}}
         }
     \end{columns}
-\end{frame}
-
-% ── The Reality ─────────────────────────────────────────────
-\begin{frame}{The Reality of Deletion}
-    \vspace{0.3cm}
-    \begin{center}
-        \large\textbf{We know deletion is complex - and that's \textcolor{accent}{\textit{okay!}}}
-    \end{center}
-
-    \vspace{0.5cm}
-
-    \begin{itemize}
-        \item<2-> \large The deletion algorithm is \textcolor{highlight}{\textbf{huge}} with many edge cases
-        \item<3-> \large Each of the 4 cases has intricate implementation details
-        \item<4-> \large Full implementation can span \textcolor{badred}{\textbf{hundreds}} of lines of code
-    \end{itemize}
-
-    \vspace{0.6cm}
-    \uncover<5->{
-    \begin{center}
-        \Large\textcolor{badred}{\faIcon{forward}\enspace\textbf{We'll skip the gory details for now!}}
-    \end{center}
-    }
 \end{frame}
 
 % % ── If You're Interested ─────────────────────────────────────

@@ -1,0 +1,122 @@
+=====================================
+   RED-BLACK TREE PRESENTATION SCRIPT
+   Your Part: Pages 77–169
+   Time: 3 Minutes
+=====================================
+
+
+[Solutions Table — p.77]
+~20 seconds
+
+"So, for the first case, when the root is red, we simply recolor it red! 
+As for the rest of 3 case,
+the tree asks one question — is my uncle red or black?
+ Red uncle? Easy fix, just recolor.
+Black uncle? We need to rotate. And the shape — left-right or right-right —
+tells us which rotation.  4 cases, That's it."
+
+
+--------------------------------------
+
+[Insert 1–5 Demo — p.80–98]
+~15 seconds
+
+"Let's see it in action. Inserting 1 through 5 in order — the exact sequence that
+destroys a regular BST. Watch how after each insert, the tree spots the
+violation and self-corrects. Every single time. At the end, we get a tree of height 3, compared
+to height 5 of regular BST!"
+
+
+--------------------------------------
+
+[BST vs RBT Comparison — p.99]
+~15 seconds
+
+"This slide says it all. Same data, same order — completely different results. 
+Balanced automatically, every time."
+
+
+--------------------------------------
+
+[Deletion Intro — p.101]
+~20 seconds
+
+"Now deletion. Deleting a red node is fine — nothing breaks. But deleting
+a black node is a problem. Every path from root to leaf must have the same
+number of black nodes. Remove one black node and that guarantee shatters."
+
+
+--------------------------------------
+
+[Deletion Flowchart — p.111]
+~15 seconds
+
+"The flowchart shows it — red node, easy, done. Black node sends us into
+a fix-up process. We mark the empty spot as 'Double-Black'
+and we have to resolve it."
+
+
+--------------------------------------
+
+[Delete RED Node — p.112–122]
+~10 seconds
+
+"Quick example — node 5, red. Remove it, check black-height, every path
+still has 2 black nodes. Done, no fix needed."
+
+
+--------------------------------------
+
+[Delete BLACK Node — p.123–134]
+~20 seconds
+
+"Now node 1, black. Remove it — left path is now shorter, black-height
+violated. We mark it Double-Black, after some rotations and recoloring...balance is restored."
+
+
+--------------------------------------
+
+[4 Fix Cases — p.135–156]
+~20 seconds
+
+"Each case on screen shows a Before and After. Don't worry about
+memorizing the steps — just notice one thing: every transformation
+is moving the Double-Black node closer to resolution. The tree is
+always making progress, never stuck."
+
+
+--------------------------------------
+
+[Summary / Chain Diagram — p.157–159]
+~20 seconds
+
+"And here's why it always works — these cases form a chain. Cases 1
+and 3 are setup moves that funnel into Case 4, which is the actual fix.
+Case 2 might push the problem upward but always terminates.
+No matter where you start, balance is guaranteed."
+
+
+--------------------------------------
+And Yeah, if your head is spinning right now,
+it's totally normal. 
+The point isn't to memorize every case, it's to understand that a fix always exists.
+
+
+[Handoff — p.167–169]
+~15 seconds
+
+"So was all of that worth it? That's what we'll see next — because
+Red-Black Trees guarantee O(log n) for insert, delete, and search
+in every case, no matter what."
+
+
+=====================================
+   TOTAL: ~2 min 55 seconds
+=====================================
+
+DELIVERY NOTES:
+- Slow down on: "Two questions, 4 cases. That's it."
+- Let the animation breathe during the Insert 1-5 demo, don't talk over it
+- "Think of it as a chain" is your anchor line — say it clearly
+- Everything else can move at pace
+=====================================
