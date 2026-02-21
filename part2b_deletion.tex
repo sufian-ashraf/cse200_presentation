@@ -10,7 +10,6 @@
     \end{center}
 
     \vspace{0.3cm}
-    \uncover<2->{
     \begin{columns}[T]
         \column{0.5\textwidth}
         \begin{center}
@@ -18,9 +17,9 @@
         \end{center}
         \vspace{0.2cm}
         \begin{itemize}
-            \item<3-> \large No problem!
-            \item<4-> \large Just remove it
-            \item<5-> \textcolor{goodgreen}{\large \textbf{Properties still hold}}
+            \item \large No problem!
+            \item \large Just remove it
+            \item \textcolor{goodgreen}{\large \textbf{Properties still hold}}
         \end{itemize}
 
         \column{0.5\textwidth}
@@ -29,20 +28,13 @@
         \end{center}
         \vspace{0.2cm}
         \begin{itemize}
-            \item<6-> \large Oh boy\ldots
-            \item<7-> \large Black height changes!
-            \item<8-> \textcolor{accent}{\large \textbf{Need ``double black'' fix}}
-            \item<9-> \large Complex cases
+            \item \large Oh boy\ldots
+            \item \large Black height changes!
+            \item \textcolor{accent}{\large \textbf{Need ``double black'' fix}}
+            \item \large Complex cases
         \end{itemize}
     \end{columns}
-    }
 
-    \uncover<10->{
-    \vspace{0.5cm}
-    \begin{center}
-        \Large\textbf{Let's see both cases\ldots}
-    \end{center}
-    }
 \end{frame}
 
 % ── Deletion Decision Flowchart ──────────────────────────────
@@ -154,15 +146,6 @@
     \vspace{0.3cm}
 \end{frame}
 
-\begin{frame}{Case 1: Deleting a \textcolor{rbred}{RED} Node}
-    \vspace{1.8cm}
-    \begin{center}
-        \LARGE\textbf{Is it done?}\\[0.5cm]
-        \uncover<2->{
-            \Large\textcolor{badred}{Let's check the black height.}
-        }
-    \end{center}
-\end{frame}
 
 
 % % ── Easy case: Why It's Easy ────────────────────────────────
@@ -201,25 +184,18 @@
                 \draw[thick] (root)--(n1); \draw[thick] (root)--(n4);
                 \draw[thick] (n4)--(n3);   \draw[thick] (n4)--(n5);
                 % Path 1: root -> 1
-                \only<2->{
-                    \draw[line width=2.5pt, orange!80!black] (root) -- (n1);
-                    \node[below=0.1cm of n1, font=\scriptsize, text=orange!80!black] {\textbf{bc=2}};
-                }
+                \draw[line width=2.5pt, orange!80!black] (root) -- (n1);
+                \node[below=0.1cm of n1, font=\scriptsize, text=orange!80!black] {\textbf{bc=2}};
                 % Path 2: root -> 4 -> 3
-                \only<3->{
-                    \draw[line width=2.5pt, goodgreen] (root) -- (n4) -- (n3);
-                    \node[below=0.1cm of n3, font=\scriptsize, text=goodgreen] {\textbf{bc=2}};
-                }
+                \draw[line width=2.5pt, goodgreen] (root) -- (n4) -- (n3);
+                \node[below=0.1cm of n3, font=\scriptsize, text=goodgreen] {\textbf{bc=2}};
                 % Path 3: root -> 4 -> 5
-                \only<4->{
-                    \draw[line width=2.5pt, accent] (root) -- (n4) -- (n5);
-                    \node[below=0.1cm of n5, font=\scriptsize, text=accent] {\textbf{bc=2}};
-                }
+                \draw[line width=2.5pt, accent] (root) -- (n4) -- (n5);
+                \node[below=0.1cm of n5, font=\scriptsize, text=accent] {\textbf{bc=2}};
             \end{tikzpicture}
         \end{center}
 
         \column{0.5\textwidth}
-        \uncover<5->{
         \begin{center}
             \large\textbf{After (node 5 removed)}\\[0.3cm]
             \begin{tikzpicture}[scale=1.0, every node/.style={font=\small\bfseries}]
@@ -230,18 +206,13 @@
                 \draw[thick] (root)--(n1); \draw[thick] (root)--(n4);
                 \draw[thick] (n4)--(n3);
                 % Path 1
-                \only<6->{
-                    \draw[line width=2.5pt, orange!80!black] (root) -- (n1);
-                    \node[below=0.1cm of n1, font=\scriptsize, text=orange!80!black] {\textbf{bc=2}};
-                }
+                \draw[line width=2.5pt, orange!80!black] (root) -- (n1);
+                \node[below=0.1cm of n1, font=\scriptsize, text=orange!80!black] {\textbf{bc=2}};
                 % Path 2
-                \only<7->{
-                    \draw[line width=2.5pt, goodgreen] (root) -- (n4) -- (n3);
-                    \node[below=0.1cm of n3, font=\scriptsize, text=goodgreen] {\textbf{bc=2}};
-                }
+                \draw[line width=2.5pt, goodgreen] (root) -- (n4) -- (n3);
+                \node[below=0.1cm of n3, font=\scriptsize, text=goodgreen] {\textbf{bc=2}};
             \end{tikzpicture}
         \end{center}
-        }
     \end{columns}
 \end{frame}
 
@@ -295,9 +266,9 @@
 
         \column{0.45\textwidth}
         \begin{itemize}
-            \pause\item \large Left path is now \textbf{shorter}
-            \pause\item \large Black-height \textcolor{badred}{\textbf{violated!}}
-            \pause\item \large We call this a\\[0.2cm]
+            \item \large Left path is now \textbf{shorter}
+            \item \large Black-height \textcolor{badred}{\textbf{violated!}}
+            \item \large We call this a\\[0.2cm]
                         \large\textcolor{rbred}{\textbf{``Double-Black''}} node
         \end{itemize}
     \end{columns}
@@ -316,24 +287,24 @@
         \vspace{0.6cm}
         \begin{itemize}
             \item<1-> \large \enspace\textbf{Rotate:} Right at 4,\\then left at 2
-            \item<2-> \large \enspace\textbf{Recolor:} Node 3 $\to$ Black
-            \item<6-> \large \textcolor{highlight}{\enspace \textbf{Tree is balanced!}}
+            \item<1-> \large \enspace\textbf{Recolor:} Node 3 $\to$ Black
+            \item<5-> \large \textcolor{highlight}{\enspace \textbf{Tree is balanced!}}
         \end{itemize}
 
         \column{0.55\textwidth}
-        \uncover<3->{
+        \uncover<2->{
         \begin{center}
         \begin{tikzpicture}[scale=1.0, every node/.style={font=\small\bfseries}]
             \node[blacknode] (r3) at ( 0,    0)    {3};
             \node[blacknode] (n2) at (-1.2, -1.5)  {2};
             \node[blacknode] (n4) at ( 1.2, -1.5)  {4};
             \draw[thick] (r3)--(n2); \draw[thick] (r3)--(n4);
-            \only<4->{
+            \only<3->{
                 \draw[line width=2.5pt, orange!80!black] (r3) -- (n2);
                 \node[below=0.15cm of n2, font=\small\bfseries,
                       text=orange!80!black] {bc=2};
             }
-            \only<5->{
+            \only<4->{
                 \draw[line width=2.5pt, green!60!black] (r3) -- (n4);
                 \node[below=0.15cm of n4, font=\small\bfseries,
                       text=green!60!black] {bc=2};
@@ -342,12 +313,6 @@
         \end{center}
         }
     \end{columns}
-
-    \uncover<6->{
-    \begin{center}
-        \large\textcolor{goodgreen}{\enspace\textbf{All paths: bc\,=\,2 - Black-height restored!}}
-    \end{center}
-    }
 \end{frame}
 
 % ── Double-Black: what are the 4 cases? ─────────────────────
@@ -371,12 +336,6 @@
             text=rbblack, dashed, font=\bfseries\normalsize,
             minimum size=10mm, inner sep=0pt]{DB}; \enspace = Double-Black node
     }
-    \end{center}
-
-    \vspace{0.5cm}
-    \pause
-    \begin{center}
-        \Large\textcolor{accent}{\enspace\textbf{4 cases - let's go through them one by one!}}
     \end{center}
 \end{frame}
 
@@ -405,7 +364,7 @@
         \end{center}
 
         \column{0.55\textwidth}
-        \uncover<5->{
+        \uncover<3->{
         \begin{center}
             \small\textbf{After}\\[0.2cm]
             \begin{tikzpicture}[scale=0.75, every node/.style={font=\small\bfseries}]
@@ -426,7 +385,7 @@
     \vspace{0.05cm}
     \begin{itemize}
         \item<2-> \large \enspace\textbf{Rotate} P to the left
-        \item<3-> \large\enspace\textbf{Recolor:} S $\to$ Black, P $\to$ Red
+        \item<2-> \large\enspace\textbf{Recolor:} S $\to$ Black, P $\to$ Red
         % \item<4-> \large\textcolor{accent}{\textit{This converts it into Case 2, 3, or 4}}
     \end{itemize}
 \end{frame}
@@ -456,7 +415,7 @@
         \end{center}
 
         \column{0.55\textwidth}
-        \uncover<5->{
+        \uncover<3->{
         \begin{center}
             \small\textbf{After}\\[0.2cm]
             \begin{tikzpicture}[scale=0.75, every node/.style={font=\small\bfseries}]
@@ -477,7 +436,7 @@
     \vspace{0.05cm}
     \begin{itemize}
         \item<2-> \large \enspace\textbf{Recolor} S $\to$ Red
-        \item<3-> \large \enspace Push the Double-Black \textbf{up to P}
+        \item<2-> \large \enspace Push the Double-Black \textbf{up to P}
         % \item<4-> \large\textcolor{accent}{\textit{Repeat fix from P if P was also Black}}
     \end{itemize}
 \end{frame}
@@ -507,7 +466,7 @@
         \end{center}
 
         \column{0.55\textwidth}
-        \uncover<5->{
+        \uncover<3->{
         \begin{center}
             \small\textbf{After}\\[0.2cm]
             \begin{tikzpicture}[scale=0.6, every node/.style={font=\small\bfseries},
@@ -560,7 +519,7 @@
         \end{center}
 
         \column{0.55\textwidth}
-        \uncover<5->{
+        \uncover<3->{
         \begin{center}
             \small\textbf{After}\\[0.2cm]
             \begin{tikzpicture}[scale=0.75, every node/.style={font=\small\bfseries}]
@@ -580,54 +539,54 @@
     \vspace{0.05cm}
     \begin{itemize}
         \item<2-> \large \enspace\textbf{Left-rotate} at P
-        \item<3-> \large \enspace\textbf{Recolor} R $\to$ Black
+        \item<2-> \large \enspace\textbf{Recolor} R $\to$ Black
         % \item<4-> \large\textcolor{goodgreen}{\faIcon{check}\enspace\textbf{Double-Black fully resolved!}}
     \end{itemize}
 \end{frame}
 
-% ── Case 4 goal ─────────────────────────────────────────────
-\begin{frame}{Summary}
-    \vspace{0.5cm}
-    \begin{center}
-        \Large The cases form a \textcolor{highlight}{\textbf{chain}}:
-    \end{center}
+% % ── Case 4 goal ─────────────────────────────────────────────
+% \begin{frame}{Summary}
+%     \vspace{0.5cm}
+%     \begin{center}
+%         \Large The cases form a \textcolor{highlight}{\textbf{chain}}:
+%     \end{center}
 
-    \vspace{0.6cm}
+%     \vspace{0.6cm}
 
-    \begin{center}
-    \begin{tikzpicture}[scale=1.0,
-        node distance=1.6cm,
-        box/.style={rectangle, draw=accent!80, fill=accent!15,
-                    text=rbblack, font=\normalsize\bfseries,
-                    rounded corners=5pt, minimum width=2.2cm, minimum height=1cm,
-                    text centered},
-        arr/.style={thick,->,>=stealth,accent!80}]
-        \node[box] (c1) {Case 1};
-        \node[box, right=of c1] (c23) {Case 2/3};
-        \node[box, right=of c23] (c4) {Case 4};
-        \node[rectangle, draw=goodgreen, fill=goodgreen!15, text=goodgreen,
-              font=\normalsize\bfseries, rounded corners=5pt,
-              minimum width=2.4cm, minimum height=1cm,
-              text centered, right=of c4] (done) {\faIcon{check} Done!};
+%     \begin{center}
+%     \begin{tikzpicture}[scale=1.0,
+%         node distance=1.6cm,
+%         box/.style={rectangle, draw=accent!80, fill=accent!15,
+%                     text=rbblack, font=\normalsize\bfseries,
+%                     rounded corners=5pt, minimum width=2.2cm, minimum height=1cm,
+%                     text centered},
+%         arr/.style={thick,->,>=stealth,accent!80}]
+%         \node[box] (c1) {Case 1};
+%         \node[box, right=of c1] (c23) {Case 2/3};
+%         \node[box, right=of c23] (c4) {Case 4};
+%         \node[rectangle, draw=goodgreen, fill=goodgreen!15, text=goodgreen,
+%               font=\normalsize\bfseries, rounded corners=5pt,
+%               minimum width=2.4cm, minimum height=1cm,
+%               text centered, right=of c4] (done) {\faIcon{check} Done!};
 
-        \draw[arr] (c1) -- node[above,font=\small]{rotate} (c23);
-        \draw[arr] (c23) -- node[above,font=\small]{transform} (c4);
-        \draw[arr] (c4) -- node[above,font=\small]{rotate} (done);
-    \end{tikzpicture}
-    \end{center}
+%         \draw[arr] (c1) -- node[above,font=\small]{rotate} (c23);
+%         \draw[arr] (c23) -- node[above,font=\small]{transform} (c4);
+%         \draw[arr] (c4) -- node[above,font=\small]{rotate} (done);
+%     \end{tikzpicture}
+%     \end{center}
 
-    \vspace{0.6cm}
-    \pause
-    \begin{center}
-        \large\textcolor{accent}{\enspace\textbf{Goal:} Eventually reach Case 4 to fully eliminate Double-Black}
-    \end{center}
-    \uncover<3->{
-    \vspace{0.2cm}
-    \begin{center}
-        \large\textcolor{gray}{\textit{Case 2 may propagate upward; Cases 1 \& 3 always lead to Case 4}}
-    \end{center}
-    }
-\end{frame}
+%     \vspace{0.6cm}
+%     \pause
+%     \begin{center}
+%         \large\textcolor{accent}{\enspace\textbf{Goal:} Eventually reach Case 4 to fully eliminate Double-Black}
+%     \end{center}
+%     \uncover<3->{
+%     \vspace{0.2cm}
+%     \begin{center}
+%         \large\textcolor{gray}{\textit{Case 2 may propagate upward; Cases 1 \& 3 always lead to Case 4}}
+%     \end{center}
+%     }
+% \end{frame}
 
 % ── Confused Meme Slide ─────────────────────────────────────
 \begin{frame}{Too Many Cases?}
@@ -638,59 +597,37 @@
         \end{center}
 
         \column{0.54\textwidth}
-        \uncover<1->{\large\textbf{Confused?}}
+       {\large\textbf{Confused?}}
 
         \vspace{0.5cm}
 
-        \uncover<2->{
+        {
             If this felt like \textcolor{accent}{\textbf{a lot}} at once -\\
             that's because \textcolor{badred}{\textbf{it is !}}\\[0.4cm]
         }
 
         \vspace{0.6cm}
 
-        \uncover<3->{
+        {
             \LARGE\textbf{We know deletion is complex - and that's \textcolor{accent}{\textit{okay!}}}
         }
     \end{columns}
 \end{frame}
 
-% % ── If You're Interested ─────────────────────────────────────
-% \begin{frame}{If You're Interested\ldots}
-%     \vspace{0.5cm}
-%     \begin{center}
-%         \large\textcolor{goodgreen}{\enspace\textbf{Want to go deeper?}}
-%     \end{center}
-
-%     \vspace{0.5cm}
-
-%     \begin{itemize}
-%         \item<2-> \large \textbf{CLRS Chapter 13} — full pseudocode \& proofs
-%         \item<3-> \large \textbf{visualgo.net} — interactive online visualizer
-%         \item<4-> \large \textbf{GitHub} — open-source implementations in your favourite language
-%     \end{itemize}
-
-%     \vspace{0.7cm}
-%     \uncover<5->{
-%     \begin{center}
-%         \Large\textit{\enspace Focus on the \textbf{concepts}, not memorising every case!}
-%     \end{center}
-%     }
-% \end{frame}
 
 % ── Connector: Into Complexity ───────────────────────────────
 \begin{frame}{Was All That Worth It?}
     \vspace{1.8cm}
     \begin{center}
         \LARGE\textbf{All that work.}\\[0.5cm]
-        \uncover<2->{
+        {
             \Large\textcolor{accent}{What did it actually buy us?}
         }
     \end{center}
 
     \vspace{0.8cm}
 
-    \uncover<3->{
+   {
     \begin{center}
         \large\textcolor{rbblack!70}{\textit{Let's finally see the payoff.}}
     \end{center}

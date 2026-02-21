@@ -13,7 +13,6 @@
 
 \usetikzlibrary{trees, positioning, arrows.meta, shapes.geometric,decorations.pathreplacing}
 
-% Custom colors for red-black trees
 % ── Custom colors ──────────────────────────────────────────────
 \definecolor{rbred}{RGB}{220, 38, 127}
 \definecolor{rbblack}{RGB}{33, 33, 33}
@@ -25,7 +24,6 @@
 \definecolor{highlight}{RGB}{30, 100, 200}
 \definecolor{deepblue}{RGB}{30, 100, 200}
 
-% ── TikZ node styles ───────────────────────────────────────────
 \tikzset{
     rbnode/.style={circle, draw, thick, minimum size=9mm, font=\small\bfseries},
     rednode/.style={rbnode, fill=rbred!20, text=rbred, draw=rbred},
@@ -44,9 +42,7 @@
 
 \begin{document}
 
-% ══════════════════════════════════════════════════════════════
 % TITLE
-% ══════════════════════════════════════════════════════════════
 \begin{frame}
     \titlepage
 \end{frame}

@@ -1,170 +1,12 @@
-
-\begin{frame}{Solutions to Violations}
-
-    % Case 1
-    \uncover<1->{
-        \begin{columns}[c]
-            \column{0.08\textwidth}
-            \centering\textbf{\small Case 1}
-
-            \column{0.42\textwidth}
-            \begin{block}{\faIcon{exclamation-circle}~Violation}
-                \small Root is \textcolor{rbred}{\textbf{RED}} — Property 2 broken
-            \end{block}
-
-            \column{0.42\textwidth}
-            \begin{alertblock}{\faIcon{wrench}~Fix}
-                \small Recolor root to \textcolor{rbblack}{\textbf{BLACK}}
-            \end{alertblock}
-        \end{columns}
-    }
-
-    \vspace{0.12cm}
-
-    % Case 2
-    \uncover<2->{
-        \begin{columns}[c]
-            \column{0.08\textwidth}
-            \centering\textbf{\small Case 2}
-
-            \column{0.42\textwidth}
-            \begin{block}{\faIcon{exclamation-circle}~Violation}
-                \small Uncle is \textcolor{rbred}{\textbf{RED}} — two reds adjacent
-            \end{block}
-
-            \column{0.42\textwidth}
-            \begin{alertblock}{\faIcon{wrench}~Fix}
-                \small Recolor parent, uncle \textcolor{rbblack}{\textbf{BLACK}}; grandparent \textcolor{rbred}{\textbf{RED}}
-            \end{alertblock}
-        \end{columns}
-    }
-
-    \vspace{0.12cm}
-
-    % Case 3
-    \uncover<3->{
-        \begin{columns}[c]
-            \column{0.08\textwidth}
-            \centering\textbf{\small Case 3}
-
-            \column{0.42\textwidth}
-            \begin{block}{\faIcon{exclamation-circle}~Violation}
-                \small Uncle is \textcolor{rbblack}{\textbf{BLACK}} — Right-Right
-            \end{block}
-
-            \column{0.42\textwidth}
-            \begin{alertblock}{\faIcon{wrench}~Fix}
-                \small Left rotate at grandparent, then recolor
-            \end{alertblock}
-        \end{columns}
-    }
-
-    \vspace{0.12cm}
-
-    % Case 4
-    \uncover<4->{
-        \begin{columns}[c]
-            \column{0.08\textwidth}
-            \centering\textbf{\small Case 4}
-
-            \column{0.42\textwidth}
-            \begin{block}{\faIcon{exclamation-circle}~Violation}
-                \small Uncle is \textcolor{rbblack}{\textbf{BLACK}} — Left-Right
-            \end{block}
-
-            \column{0.42\textwidth}
-            \begin{alertblock}{\faIcon{wrench}~Fix}
-                \small Left rotate at parent, then apply Case 3
-            \end{alertblock}
-        \end{columns}
-    }
-
-\end{frame}
-
-% % ── Insertion process ──────────────────────────────────────
-% \begin{frame}{Insertion: The Process}
-%     \begin{enumerate}
-%         \item<1-> Insert like a normal BST
-%         \item<2-> Color the new node \textcolor{rbred}{\textbf{RED}}
-%         \item<3-> Fix any violations
-%     \end{enumerate}
-
-%     \only<4->{
-%         \begin{center}
-%             \begin{tikzpicture}[scale=0.6]
-%                 \node at (-2.5,1.5) {\textbf{Before:}};
-%                 \node[blacknode] at (-2.5,0) {10}
-%                     child {node[blacknode] {5}}
-%                     child {node[blacknode] {15}};
-
-%                 \node at (2.5,1.5) {\textbf{After inserting 12:}};
-%                 \node[blacknode] at (2.5,0) {10}
-%                     child {node[blacknode] {5}}
-%                     child {node[rednode]  {15}
-%                         child {node[rednode]{12}}
-%                         child[missing] {}
-%                     };
-%             \end{tikzpicture}
-%         \end{center}
-%     }
-
-%     \only<5->{
-%         \begin{alertblock}{Problem!}
-%             Two adjacent red nodes — Property 4 violated!
-%         \end{alertblock}
-%     }
-% \end{frame}
-
-% % ── Fixing violations ──────────────────────────────────────
-% \begin{frame}{Fixing Violations}
-%     \begin{columns}
-%         \column{0.5\textwidth}
-%         \begin{block}{Uncle is RED}
-%             \begin{itemize}
-%                 \item Easy case!
-%                 \item Just recolor
-%                 \item Flip parent, uncle \& grandparent
-%             \end{itemize}
-%         \end{block}
-
-%         \pause
-
-%         \column{0.5\textwidth}
-%         \begin{alertblock}{Uncle is BLACK}
-%             \begin{itemize}
-%                 \item Hard case!
-%                 \item Need rotations
-%                 \item Left rotate, right rotate
-%                 \item Sometimes both!
-%             \end{itemize}
-%         \end{alertblock}
-%     \end{columns}
-
-%     \pause
-%     \vspace{0.4cm}
-
-%     \begin{center}
-%         \Large\textcolor{rbred}{This is where it gets tricky!}\\[0.3cm]
-%         \large But it keeps the tree balanced!
-%     \end{center}
-% \end{frame}
-
-% ── Remember the linked-list problem? ──────────────────────
+% ── Insertion Sequence Start ───────────────────────────────
 \begin{frame}{Remember This Problem?}
+    \vspace{1.5cm}
     \begin{center}
-        \Large Let's try inserting \textbf{1, 2, 3, 4, 5} again\ldots\\[0.3cm]
-        \large But this time in a \textcolor{rbred}{Red-Black Tree}!
-    \end{center}
-    \pause
-
-    \begin{center}
-        \Large\textbf{Watch the magic happen!}
+        \Large\textbf{Let's insert \textcolor{highlight}{1, 2, 3, 4, 5} again}\\[0.5cm]
+        \large But this time in a Red-Black Tree
     \end{center}
 \end{frame}
 
-% Progress bars removed - using simple direct presentation style like introduction.tex
-
-% ── Step 1: Insert 1 ───────────────────────────────────────
 % ── Step 1: Insert 1 ───────────────────────────────────────
 \begin{frame}{Insert 1}
     \vspace{0.3cm}
@@ -173,23 +15,22 @@
         \begin{itemize}
             \item<1-> First node is always \textbf{root}
             \item<1-> Insert as {\textbf{RED}} (default color)
-            \item<3-> But Root cannot be \textbf{RED!} \textcolor{badred}{\textbf{ Property 2 violated - Case : 1}}
-            \item<4-> Recolor root to \textcolor{rbblack}{\textbf{BLACK}}
-            \item<4->\textcolor{goodgreen}{\textbf{Fixed!}}
+            \item<1-> But Root cannot be \textbf{RED!} \textcolor{badred}{\textbf{ Property 2 violated - Case : 1}}
+            \item<2-> Recolor root to \textcolor{rbblack}{\textbf{BLACK}}
+            \item<2->\textcolor{goodgreen}{\textbf{Fixed!}}
         \end{itemize}
 
         \column{0.55\textwidth}
         \begin{center}
-            \only<2>{\textbf{After Insert}\\[0.4cm]}
-            \only<3>{\textbf{Violation — Root is RED!}\\[0.4cm]}
-            \only<4>{\textbf{After Recolor}\\[0.4cm]}
+            \only<1>{\textbf{After Insert — Violation!}\\[0.4cm]}
+            \only<2>{\textbf{After Recolor}\\[0.4cm]}
 
-            \only<2-3>{
+            \only<1>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[rednode] {1};
                 \end{tikzpicture}
             }
-            \only<4>{
+            \only<2>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[blacknode] {1};
                 \end{tikzpicture}
@@ -248,23 +89,21 @@
         \begin{itemize}
             \item<1-> Right child of 2
             \item<1-> Insert as \textcolor{rbred}{\textbf{RED}} (default)
-            \item<2-> Uncle is \textcolor{rbblack}{\textbf{NIL/BLACK}}
-            \item<2-> \textcolor{badred}{\textbf{Case: 3}}\\
-                      Left rotate at node 1
+            \item<1-> Uncle is \textcolor{rbblack}{\textbf{NIL/BLACK}} — \textcolor{badred}{\textbf{Case: 3}}
+            \item<2-> Left rotate at node 1
             \item<3-> Recolor: 2 $\to$ \textbf{BLACK}, children $\to$ \textcolor{rbred}{\textbf{RED}}
-            \item<4-> \textcolor{goodgreen}{\textbf{Fixed!}}
+            \item<3-> \textcolor{goodgreen}{\textbf{Fixed!}}
         \end{itemize}
 
         \column{0.55\textwidth}
         \begin{center}
             % Stage label
-            \only<1>{\textbf{After Insert}\\[0.4cm]}
-            \only<2>{\textbf{\textcolor{badred}{Violation Found — Two RED in a row!}}\\[0.4cm]}
-            \only<3>{\textbf{After Left Rotation}\\[0.4cm]}
-            \only<4>{\textbf{After Recolor}\\[0.4cm]}
+            \only<1>{\textbf{\textcolor{badred}{Violation — Two RED in a row!}}\\[0.4cm]}
+            \only<2>{\textbf{After Left Rotation}\\[0.4cm]}
+            \only<3>{\textbf{After Recolor}\\[0.4cm]}
 
             % Tree — only one visible at a time, all in the same space
-            \only<1-2>{
+            \only<1>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[blacknode] {1}
                         child[missing] {}
@@ -274,14 +113,14 @@
                         };
                 \end{tikzpicture}
             }
-            \only<3>{
+            \only<2>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[rednode] {2}
                         child {node[rednode] {1}}
                         child {node[rednode] {3}};
                 \end{tikzpicture}
             }
-            \only<4>{
+            \only<3>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[blacknode] {2}
                         child {node[rednode] {1}}
@@ -300,23 +139,20 @@
         \begin{itemize}
             \item<1-> Right child of 3
             \item<1-> Insert as \textcolor{rbred}{\textbf{RED}} (default)
-            \item<2-> Uncle (node 1) is \textcolor{rbred}{\textbf{RED}}
-            \item<2-> \textcolor{badred}{\textbf{CASE 2}}\\
-                       Uncle is RED — just recolor!
-            \item<3-> Recolor: parent \& uncle $\to$ \textbf{BLACK}
-            \item<3-> Grandparent stays \textbf{BLACK}
-            \item<4-> \textcolor{goodgreen}{\textbf{Fixed!}}
+            \item<1-> Uncle (node 1) is \textcolor{rbred}{\textbf{RED}} — \textcolor{badred}{\textbf{CASE 2}}
+            \item<2-> Recolor: parent \& uncle $\to$ \textbf{BLACK}
+            \item<2-> Grandparent stays \textbf{BLACK}
+            \item<2-> \textcolor{goodgreen}{\textbf{Fixed!}}
         \end{itemize}
 
         \column{0.55\textwidth}
         \begin{center}
             % Stage label
-            \only<1>{\textbf{After Insert}\\[0.4cm]}
-            \only<2>{\textcolor{badred}{\textbf{Violation Found — Uncle is RED}}\\[0.4cm]}
-            \only<4>{\textbf{After Recolor}\\[0.4cm]}
+            \only<1>{\textcolor{badred}{\textbf{Violation — Uncle is RED}}\\[0.4cm]}
+            \only<2>{\textbf{After Recolor}\\[0.4cm]}
 
             % Tree — only one visible at a time, all in the same space
-            \only<1-2>{
+            \only<1>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[blacknode] {2}
                         child {node[rednode] {1}}
@@ -326,7 +162,7 @@
                         };
                 \end{tikzpicture}
             }
-            \only<4>{
+            \only<2>{
                 \begin{tikzpicture}[scale=1.0]
                     \node[blacknode] {2}
                         child {node[blacknode] {1}}
@@ -347,22 +183,19 @@
         \begin{itemize}
             \item<1-> Right child of 4
             \item<1-> Insert as \textcolor{rbred}{\textbf{RED}} (default)
-            \item<3-> Uncle (node 1) is \textcolor{rbblack}{\textbf{BLACK}}
-            \item<3-> \textcolor{badred}{\textbf{CASE 3}}\\
-                      Uncle is \textbf{BLACK} — rotate \& recolor!
-            \item<4-> Left rotate at node 3 $\to$ 4 moves up
-            \item<5-> Recolor: 4 $\to$ \textbf{BLACK}, children $\to$ \textcolor{badred}{\textbf{RED}}
-            \item<5-> \textcolor{goodgreen}{\Large \textbf{We're done!}}
+            \item<1-> Uncle (node 1) is \textcolor{rbblack}{\textbf{BLACK}} — \textcolor{badred}{\textbf{CASE 3}}
+            \item<2-> Left rotate at node 3 $\to$ 4 moves up
+            \item<3-> Recolor: 4 $\to$ \textbf{BLACK}, children $\to$ \textcolor{badred}{\textbf{RED}}
+            \item<3-> \textcolor{goodgreen}{\Large \textbf{We're done!}}
         \end{itemize}
 
         \column{0.55\textwidth}
         \begin{center}
-            \only<2>{\textbf{After Insert}\\[0.4cm]}
-            \only<3>{\textbf{\textcolor{badred}{Violation — Two RED in a row!}}\\[0.4cm]}
-            \only<4>{\textbf{After Left Rotation}\\[0.4cm]}
-            \only<5>{\textbf{After Recolor}\\[0.4cm]}
+            \only<1>{\textbf{\textcolor{badred}{Violation — Two RED in a row!}}\\[0.4cm]}
+            \only<2>{\textbf{After Left Rotation}\\[0.4cm]}
+            \only<3>{\textbf{After Recolor}\\[0.4cm]}
 
-            \only<2-3>{
+            \only<1>{
                 \begin{tikzpicture}[scale=0.85]
                     \node[blacknode] {2}
                         child {node[blacknode] {1}}
@@ -375,7 +208,7 @@
                         };
                 \end{tikzpicture}
             }
-            \only<4>{
+            \only<2>{
                 \begin{tikzpicture}[scale=0.85]
                     \node[blacknode] {2}
                         child {node[blacknode] {1}}
@@ -385,7 +218,7 @@
                         };
                 \end{tikzpicture}
             }
-            \only<5>{
+            \only<3>{
                 \begin{tikzpicture}[scale=0.85]
                     \node[blacknode] {2}
                         child {node[blacknode] {1}}

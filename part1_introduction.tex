@@ -1,70 +1,3 @@
-% \begin{frame}{Insertion Violation Cases}
-%     \begin{center}
-%         \large Four main violation cases in Red-Black Tree insertion:
-%     \end{center}
-%     \vspace{0.3cm}
-%     \begin{columns}[t]
-%         % Case 1: Root is Red
-%         \column{0.24\textwidth}
-%             \begin{center}
-%             \textbf{Case 1: Root is Red}
-%             \vspace{0.2cm}
-%             \begin{tikzpicture}[scale=1.1]
-%                 \node[rednode, minimum size=12mm] (n10) at (0,0) {10};
-%                 \draw[-{Stealth[scale=1.2]}, thick, rbred] (-0.7,1.0) -- (-0.2,0.3);
-%                 \node at (-0.8,1.1) [font=\scriptsize\bfseries, text=rbred] {root};
-%             \end{tikzpicture}
-%             \end{center}
-%         % Case 2: Uncle is RED
-%         \column{0.24\textwidth}
-%             \begin{center}
-%             \textbf{Case 2: Uncle is RED}
-%             \vspace{0.2cm}
-%             \begin{tikzpicture}[scale=1]
-%                 \node[blacknode] (n20) at (0,0) {20};
-%                 \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
-%                 \node[rednode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-%                 \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
-%             \end{tikzpicture}
-%             \end{center}
-%         % Case 3: Uncle is BLACK (LL)
-%         \column{0.24\textwidth}
-%             \begin{center}
-%             \textbf{Case 3: Uncle is BLACK (LL)}
-%             \vspace{0.2cm}
-%             \begin{tikzpicture}[scale=1]
-%                 \node[blacknode] (n20) at (0,0) {20};
-%                 \node[rednode] (n15) at (-1,-1.3) {15}; \draw[thick] (n20) -- (n15);
-%                 \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-%                 \node[rednode] (n10) at (-1.8,-2.6) {10}; \draw[thick] (n15) -- (n10);
-%             \end{tikzpicture}
-%             \end{center}
-%         % Case 4: Uncle is BLACK (LR)
-%         \column{0.24\textwidth}
-%             \begin{center}
-%             \textbf{Case 4: Uncle is BLACK (LR)}
-%             \vspace{0.2cm}
-%             \begin{tikzpicture}[scale=1]
-%                 \node[blacknode] (n20) at (0,0) {20};
-%                 \node[rednode] (n5) at (-1,-1.3) {5}; \draw[thick] (n20) -- (n5);
-%                 \node[blacknode] (n30) at (1,-1.3) {30}; \draw[thick] (n20) -- (n30);
-%                 \node[rednode] (n10) at (-0.2,-2.6) {10}; \draw[thick] (n5) -- (n10);
-%             \end{tikzpicture}
-%             \end{center}
-%     \end{columns}
-%     \vspace{0.7cm}
-%     \begin{center}
-%         \textbf{\Large How to solve this?}
-%     \end{center}
-%     \vspace{0.2cm}
-%     \begin{center}
-%         \large \textit{See next...}
-%     \end{center}
-% \end{frame}
-
-% ══════════════════════════════════════════════════════════════
-% SLIDE 1: Store and Search Data
-% ══════════════════════════════════════════════════════════════
 \begin{frame}{We Need to Store and Search Data}
     \vspace{0.5cm}
     \begin{itemize}
@@ -362,10 +295,10 @@
     \large Examples of Self-Balancing Trees:
     \vspace{0.5cm}
     \begin{itemize}
-        \item AVL Tree
-        \item \textbf{\textcolor{rbred}{Red-Black Tree}}
-        \item Splay Tree
-        \item B-Tree
+        \item<1-> AVL Tree
+        \item<2-> \textbf{\textcolor{rbred}{Red-Black Tree}}
+        \item<3-> Splay Tree
+        \item<4-> B-Tree
     \end{itemize}
 \end{frame}
 
@@ -875,10 +808,10 @@
                 \end{tikzpicture}
             }
             
-            \vspace{0.5cm}
-            \onslide<3->{
-                \Large\textbf{Case 2}
-            }
+            % \vspace{0.5cm}
+            % \onslide<3->{
+            %     \Large\textbf{Case 2}
+            % }
             \end{center}
         
         % Case 3: Uncle is BLACK (LL)
@@ -902,10 +835,10 @@
                 \end{tikzpicture}
             }
             
-            \vspace{0.5cm}
-            \onslide<4->{
-                \Large\textbf{Case 3}
-            }
+            % \vspace{0.5cm}
+            % \onslide<4->{
+            %     \Large\textbf{Case 3}
+            % }
             \end{center}
         
         % Case 4: Uncle is BLACK (LR)
@@ -929,10 +862,118 @@
                 \end{tikzpicture}
             }
             
-            \vspace{0.5cm}
-            \onslide<5->{
-                \Large\textbf{Case 4}
-            }
+            % \vspace{0.5cm}
+            % \onslide<5->{
+            %     \Large\textbf{Case 4}
+            % }
+            \end{center}
+    \end{columns}
+\end{frame}
+% ══════════════════════════════════════════════════════════════
+% SLIDE: Case 2 - Uncle y is RED
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insertion Violation}
+     \begin{center}
+        \textbf{\large How insertion violates RBT properties \Large\texttt}
+    \end{center}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+                
+\vspace{1.5 cm}
+\begin{tikzpicture}[scale=1.2, every node/.style={}]
+    \node[blacknode] (n20) at (0,-1.5) {20};
+    \node[rednode] (n5) at (-1,-2.8) {5}; \draw[thick] (n20) -- (n5);
+    \node[rednode] (n30) at (1,-2.8) {30}; \draw[thick] (n20) -- (n30);
+    \node[rednode] (n10) at (-0.2,-4.1) {10}; \draw[thick] (n5) -- (n10);
+
+    % Label uncle node (shifted right)
+    \node at (2.2,-2.8) [font=\small\bfseries, text=deepblue] {y (uncle)};
+\end{tikzpicture}
+
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+                \vspace{1.2cm}
+                \Large Uncle \textcolor{deepblue}{\textbf{y}} is \textcolor{rbred}{\textbf{RED}}
+                
+                \vspace{1cm}
+                \huge\textbf{Case 2}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE: Case 3 - Uncle y is BLACK (LL)
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insertion Violation}
+     \begin{center}
+        \textbf{\large How insertion violates RBT properties \Large\texttt}
+    \end{center}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+                
+                \vspace{1.5 cm}
+                \begin{tikzpicture}[scale=1.2, every node/.style={}]
+                    \node[blacknode] (n20) at (0,-1.5) {20};
+                    \node[rednode] (n15) at (-1,-2.8) {15}; \draw[thick] (n20) -- (n15);
+                    \node[blacknode] (n30) at (1,-2.8) {30}; \draw[thick] (n20) -- (n30);
+                    \node[rednode] (n10) at (-1.8,-4.1) {10}; \draw[thick] (n15) -- (n10);
+                    
+                    % Label uncle node
+                    \node at (2.2,-2.8) [font=\small\bfseries, text=deepblue] {y (uncle)};
+                \end{tikzpicture}
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+                \vspace{1.2cm}
+                \Large Uncle \textcolor{deepblue}{\textbf{y}} is \textbf{BLACK}
+                
+                \vspace{0.5cm}
+                \large (Left-Left Case)
+                
+                \vspace{1cm}
+                \huge\textbf{Case 3}
+            \end{center}
+    \end{columns}
+\end{frame}
+
+% ══════════════════════════════════════════════════════════════
+% SLIDE: Case 4 - Uncle y is BLACK (LR)
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Insertion Violation}
+     \begin{center}
+        \textbf{\large How insertion violates RBT properties \Large\texttt}
+    \end{center}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+            \begin{center}
+                
+                \vspace{1.5 cm}
+                \begin{tikzpicture}[scale=1.2, every node/.style={}]
+                    \node[blacknode] (n20) at (0,-1.5) {20};
+                    \node[rednode] (n5) at (-1,-2.8) {5}; \draw[thick] (n20) -- (n5);
+                    \node[blacknode] (n30) at (1,-2.8) {30}; \draw[thick] (n20) -- (n30);
+                    \node[rednode] (n10) at (-0.2,-4.1) {10}; \draw[thick] (n5) -- (n10);
+                    
+                    % Label uncle node
+                    \node at (2.2,-2.8) [font=\small\bfseries, text=deepblue] {y (uncle)};
+                \end{tikzpicture}
+            \end{center}
+        
+        \column{0.5\textwidth}
+            \begin{center}
+                \vspace{1.2cm}
+                \Large Uncle \textcolor{deepblue}{\textbf{y}} is \textbf{BLACK}
+                
+                \vspace{0.5cm}
+                \large (Left-Right Case)
+                
+                \vspace{1cm}
+                \huge\textbf{Case 4}
             \end{center}
     \end{columns}
 \end{frame}
