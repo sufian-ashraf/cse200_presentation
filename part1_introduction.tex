@@ -295,10 +295,10 @@
     \large Examples of Self-Balancing Trees:
     \vspace{0.5cm}
     \begin{itemize}
-        \item<1-> AVL Tree
-        \item<2-> \textbf{\textcolor{rbred}{Red-Black Tree}}
-        \item<3-> Splay Tree
-        \item<4-> B-Tree
+        \item AVL Tree
+        \item \textbf{\textcolor{rbred}{Red-Black Tree}}
+        \item Splay Tree
+        \item B-Tree
     \end{itemize}
 \end{frame}
 
@@ -329,6 +329,126 @@
             \Large\textcolor{blue!80!black}{\textbf{Height becomes log(n) here!}}
         \end{center}
     }
+\end{frame}
+% ══════════════════════════════════════════════════════════════
+% SUMMARY DIAGRAM SLIDE
+% ══════════════════════════════════════════════════════════════
+\begin{frame}{Red-Black Tree — Complete Overview}
+\vspace{-0.3cm}
+\begin{center}
+\begin{tikzpicture}[
+    scale=0.78, transform shape,
+    box/.style={
+        rectangle, rounded corners=4pt, draw, thick,
+        minimum width=2.6cm, minimum height=0.65cm,
+        font=\small\bfseries, align=center
+    },
+    propbox/.style={
+        box, fill=deepblue!10, draw=deepblue, text=deepblue
+    },
+    opbox/.style={
+        box, fill=goodgreen!10, draw=goodgreen, text=goodgreen!60!black
+    },
+    usebox/.style={
+        box, fill=accent!15, draw=accent!80, text=rbblack
+    },
+    centerbox/.style={
+        rectangle, rounded corners=6pt, draw=rbred, very thick,
+        fill=rbred!8, minimum width=3.0cm, minimum height=1.1cm,
+        font=\large\bfseries, text=rbred, align=center
+    },
+    arr/.style={-{Stealth[scale=1.1]}, thick},
+    darr/.style={arr, draw=deepblue!70},
+    garr/.style={arr, draw=goodgreen!70},
+    aarr/.style={arr, draw=accent!90},
+    sectionlabel/.style={font=\footnotesize\bfseries, align=center},
+]
+
+% ── CENTER: RBT label + mini tree ─────────────────────────────
+\node[centerbox] (rbt) at (0, 0) {Red-Black\\Tree};
+
+% mini RBT tree below center label
+\node[blacknode, minimum size=7mm, font=\tiny\bfseries] (tr) at (0,-1.55) {11};
+\node[rednode,   minimum size=7mm, font=\tiny\bfseries] (tl) at (-0.7,-2.35) {2};
+\node[blacknode, minimum size=7mm, font=\tiny\bfseries] (trr) at (0.7,-2.35) {14};
+\node[blacknode, minimum size=7mm, font=\tiny\bfseries] (tll) at (-1.1,-3.15) {1};
+\node[blacknode, minimum size=7mm, font=\tiny\bfseries] (tlr) at (-0.3,-3.15) {7};
+\node[rednode,   minimum size=7mm, font=\tiny\bfseries] (trrr) at (1.1,-3.15) {15};
+\draw[thick] (tr)--(tl); \draw[thick] (tr)--(trr);
+\draw[thick] (tl)--(tll); \draw[thick] (tl)--(tlr);
+\draw[thick] (trr)--(trrr);
+
+% ── LEFT SECTION: Properties ───────────────────────────────────
+\node[sectionlabel, text=deepblue] (plabel) at (-5.8, 1.3) {PROPERTIES};
+
+\node[propbox] (p1) at (-5.8,  0.55) {Every node: Red or Black};
+\node[propbox] (p2) at (-5.8, -0.15) {Root is always Black};
+\node[propbox] (p3) at (-5.8, -0.85) {Leaves (NIL) are Black};
+\node[propbox] (p4) at (-5.8, -1.55) {No two consecutive Reds};
+\node[propbox] (p5) at (-5.8, -2.25) {Equal Black-Height};
+
+% bracket / background for properties
+\begin{scope}[on background layer]
+    \node[rectangle, rounded corners=5pt, fill=deepblue!5, draw=deepblue!30,
+          fit=(plabel)(p1)(p5), inner sep=4pt] {};
+\end{scope}
+
+% arrows properties -> center
+\draw[darr] (p1.east) to[out=0, in=170] (rbt.west);
+\draw[darr] (p2.east) to[out=0, in=175] (rbt.west);
+\draw[darr] (p3.east) to[out=0, in=180] (rbt.west);
+\draw[darr] (p4.east) to[out=0, in=185] (rbt.west);
+\draw[darr] (p5.east) to[out=0, in=190] (rbt.west);
+
+% ── RIGHT SECTION: Operations ─────────────────────────────────
+\node[sectionlabel, text=goodgreen!60!black] (oplabel) at (5.8, 1.3) {OPERATIONS};
+
+\node[opbox] (op1) at (5.8,  0.55) {Insert — $O(\log n)$};
+\node[opbox] (op2) at (5.8, -0.15) {Delete — $O(\log n)$};
+\node[opbox] (op3) at (5.8, -0.85) {Search — $O(\log n)$};
+\node[opbox] (op4) at (5.8, -1.55) {Recolor on violation};
+\node[opbox] (op5) at (5.8, -2.25) {Rotate on violation};
+
+\begin{scope}[on background layer]
+    \node[rectangle, rounded corners=5pt, fill=goodgreen!5, draw=goodgreen!30,
+          fit=(oplabel)(op1)(op5), inner sep=4pt] {};
+\end{scope}
+
+\draw[garr] (op1.west) to[out=180, in=10]  (rbt.east);
+\draw[garr] (op2.west) to[out=180, in=5]   (rbt.east);
+\draw[garr] (op3.west) to[out=180, in=0]   (rbt.east);
+\draw[garr] (op4.west) to[out=180, in=-5]  (rbt.east);
+\draw[garr] (op5.west) to[out=180, in=-10] (rbt.east);
+
+% ── BOTTOM SECTION: Use Cases ─────────────────────────────────
+\node[sectionlabel, text=rbblack] (uselabel) at (0, -4.55) {REAL-WORLD USES};
+
+\node[usebox] (u1) at (-4.2, -5.35) {Linux Kernel\\Scheduling};
+\node[usebox] (u2) at (-1.4, -5.35) {Java TreeMap\\TreeSet};
+\node[usebox] (u3) at ( 1.4, -5.35) {Database\\Indexing};
+\node[usebox] (u4) at ( 4.2, -5.35) {File System\\Directories};
+
+\begin{scope}[on background layer]
+    \node[rectangle, rounded corners=5pt, fill=accent!5, draw=accent!40,
+          fit=(uselabel)(u1)(u4), inner sep=4pt] {};
+\end{scope}
+
+\draw[aarr] (tll.south)  to[out=270, in=90] (u1.north);
+\draw[aarr] (tll.south)  to[out=270, in=90] (u2.north);
+\draw[aarr] (trrr.south) to[out=270, in=90] (u3.north);
+\draw[aarr] (trrr.south) to[out=270, in=90] (u4.north);
+
+% ── TOP: Key Guarantee ────────────────────────────────────────
+\node[rectangle, rounded corners=4pt, draw=rbred!60, thick,
+      fill=rbred!6, minimum width=7cm, minimum height=0.7cm,
+      font=\small\bfseries, text=rbred, align=center]
+      (guarantee) at (0, 1.55)
+      {Guarantees $O(\log n)$ height — always balanced!};
+
+\draw[arr, draw=rbred!70] (guarantee.south) -- (rbt.north);
+
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
 % ══════════════════════════════════════════════════════════════
